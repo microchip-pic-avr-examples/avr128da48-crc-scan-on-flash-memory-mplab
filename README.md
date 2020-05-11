@@ -17,7 +17,7 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 - [AVR128DA48 Product Page](https://www.microchip.com/wwwproducts/en/AVR128DA28 "AVR128DA48 Product Page")
 - [AVR128DA48 Code Examples on GitHub](https://github.com/microchip-pic-avr-examples?q=avr128da48 "AVR128DA48 Code Examples on GitHub")
 - [AVR128DA48 Project Examples in START](https://start.atmel.com/#examples/AVR128DA48CuriosityNano "AVR128DA48 Project Examples in START")
-- [CRC SCAN ON FLASH MEMORY - START EXAMPLE](avr128da48-crc-scan-on-flash-memory-mplab "CRC SCAN ON FLASH MEMORY - Studio Example")
+- [CRC SCAN ON FLASH MEMORY - Studio Example](avr128da48-crc-scan-on-flash-memory-mplab "CRC SCAN ON FLASH MEMORY - Studio Example")
 - [Hexmate](https://microchipdeveloper.com/xc8:hexmate-cli "Hexmate")
 
 ## Application Code Flow Diagram
@@ -134,7 +134,7 @@ This section explains how to generate firmware using MCC.
 
 #### 2. Configure MCC
 ##### o	Add Peripherals to project
-Add CRCSCAN, NVMCTRL, RTC, USART1 to the project.
+- Add CRCSCAN, NVMCTRL, RTC, USART1 to the project.
 <br><img src="images/add-peripherals.png" width="450">
 
 #### o	Set Fuses
