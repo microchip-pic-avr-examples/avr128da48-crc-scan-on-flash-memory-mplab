@@ -136,7 +136,7 @@ Fuse setting options are available under Registers tab of System Module.
 • Set **BOOTSIZE** Register to **0x2**
 • Set **CODESIZE** Register to **0xFE**
 • Configure **CRCSEL** in **SYSCFG0** register to **Enable CRC 16**
-**Note:** *In case of CRC-32, configure* **CRCSEL** *to* **Enable CRC 32***
+**Note:** *In case of CRC-32, configure* **CRCSEL** *to* **Enable CRC 32**
 • Configure **CRCSRC** in **SYSCFG0** register to **CRC OF FULL FLASH**
 **Note:** *In case of CRC-32, Configure* **CRCSEL** *to* **NOCRC** *because Hexmate cannot generate CRC-32 checksum.*
 <br><img src="images/size-fuse.png" width="500">
@@ -148,7 +148,7 @@ Fuse setting options are available under Registers tab of System Module.
 
 **o	Configure USART**
 In this example, USART1 is used to transmit data to the terminal window to display the stored CRC value as well as the end result message.
-• Check the** Printf support** option in the **Software settings section**
+• Check the **Printf support** option in the **Software settings section**
 <br><img src="images/uart.png" width="500">
 
 **o	Configure PIT**
