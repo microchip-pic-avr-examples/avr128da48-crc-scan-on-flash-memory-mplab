@@ -42,6 +42,7 @@ Connect AVR128DA48 Curiosity Nano Board to Host Computer (PC) using standard Mic
 
 ## Operation
 1. Open Standalone Data Visualizer. Select Virtual COM Port to which AVR DA nano board is connected. Click **Connect**.
+
   **Note:** *Alternately, open the MPLAB Data Visualizer plugin extension available to MPLAB X IDE.*
 <br><img src="images/data-visualizer.png" width="500">
 
@@ -139,9 +140,11 @@ Fuse setting options are available under Registers tab of System Module.
 - Set **BOOTSIZE** Register to **0x2**
 - Set **CODESIZE** Register to **0xFE**
 - Configure **CRCSEL** in **SYSCFG0** register to **Enable CRC 16**
-**Note:** *In case of CRC-32, configure* **CRCSEL** *to* **Enable CRC 32**
+
+  **Note:** *In case of CRC-32, configure* **CRCSEL** *to* **Enable CRC 32**
 - Configure **CRCSRC** in **SYSCFG0** register to **CRC OF FULL FLASH**
-**Note:** *In case of CRC-32, Configure* **CRCSEL** *to* **NOCRC** *because Hexmate cannot generate CRC-32 checksum.*
+
+  **Note:** *In case of CRC-32, Configure* **CRCSEL** *to* **NOCRC** *because Hexmate cannot generate CRC-32 checksum.*
 <br><img src="images/size-fuse.png" width="500">
 <br><img src="images/crc-fuse.png" width="500">
 
@@ -186,7 +189,7 @@ Click Generate button next to the project Resources heading under **Tree view** 
 #### 3. Add Linker Command
 - Open Project Properties by right clicking **project name -> Properties**
 - Add a linker command to the project under **XC8 Global Options -> XC8 Linker -> Additional options**, as shown below
-<br><img src="images/linkere.png" width="500">
+<br><img src="images/linker.png" width="500">
 
 **Command:**
 `-Wl,-Ttext=0x400`
