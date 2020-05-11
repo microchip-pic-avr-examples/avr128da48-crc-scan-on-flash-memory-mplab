@@ -17,7 +17,7 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 - [AVR128DA48 Product Page](https://www.microchip.com/wwwproducts/en/AVR128DA28 "AVR128DA48 Product Page")
 - [AVR128DA48 Code Examples on GitHub](https://github.com/microchip-pic-avr-examples?q=avr128da48 "AVR128DA48 Code Examples on GitHub")
 - [AVR128DA48 Project Examples in START](https://start.atmel.com/#examples/AVR128DA48CuriosityNano "AVR128DA48 Project Examples in START")
-- [CRC SCAN ON FLASH MEMORY - START EXAMPLE](avr128da48-crc-scan-on-flash-memory-mplab "CRC SCAN ON FLASH MEMORY - START EXAMPLE")
+- [CRC SCAN ON FLASH MEMORY - START EXAMPLE](avr128da48-crc-scan-on-flash-memory-mplab "CRC SCAN ON FLASH MEMORY - Studio Example")
 - [Hexmate](https://microchipdeveloper.com/xc8:hexmate-cli "Hexmate")
 
 ## Application Code Flow Diagram
@@ -43,8 +43,8 @@ Connect AVR128DA48 Curiosity Nano Board to Host Computer (PC) using standard Mic
 ## Operation
 1. Open Standalone Data Visualizer. Select Virtual COM Port to which AVR DA nano board is connected. Click **Connect**.
 
-  **Note:** *Alternately, open the MPLAB Data Visualizer plugin extension available to MPLAB X IDE.*
-<br><img src="images/data-visualizer.png" width="500">
+    **Note:** *Alternately, open the MPLAB Data Visualizer plugin extension available to MPLAB X IDE.*
+  <br><img src="images/data-visualizer.png" width="500">
 
 2. Open the crc16/crc32 project in MPLAB X IDE. (File -> Open Project)
 3. Clean the project. (Right click on project name and click Clean)
@@ -109,6 +109,8 @@ The CRC generator supports CRC-16-CCITT and CRC-32 (IEEE 802.3).
 The polynomial options are:
 - CRC-16-CCITT: x16 + x12 + x5 + 1
 - CRC-32: x32 + x26 + x23 + x22 + x16 + x12 + x11 + x10 + x8 + x7 + x5 + x4 + x2 + x + 1
+
+
 **This example contains two firmware projects, one for CRC-16 and other for CRC-32.**
 
 
@@ -133,7 +135,7 @@ This section explains how to generate firmware using MCC.
 #### 2. Configure MCC
 ##### o	Add Peripherals to project
 Add CRCSCAN, NVMCTRL, RTC, USART1 to the project.
-<br><img src="images/add-peripherals.png" width="500">
+<br><img src="images/add-peripherals.png" width="450">
 
 #### o	Set Fuses
 Fuse setting options are available under Registers tab of System Module.
@@ -172,7 +174,7 @@ In this example, PIT is used to generate periodic event for every 8 seconds.  Th
 #### In Pin Manager: Grid View,
 - Set pin PC6 as output for LED indication
 - Set pin PC7 as input for Switch press event
-<br><img src="images/pin-grid.png" width="500">
+<br><img src="images/pin-grid.png" width="650">
 
 #### In Pin Module,
 - Give custom name LED0 to the pin PC6. Set pin PC6 (LED0) output default status to **HIGH**, by checking **START HIGH** option for pin PC6 in pin module section. Thereby, LED0 turn off after the pin initialization.
@@ -180,7 +182,7 @@ In this example, PIT is used to generate periodic event for every 8 seconds.  Th
 <br><img src="images/pin-module.png" width="500">
 
 #### o	Enable Global Interrupt
-Check **Global Interrupt Enable** option in **Interrupt Manager** window
+- Check **Global Interrupt Enable** option in **Interrupt Manager** window
 <br><img src="images/interrupt-manager.png" width="500">
 
 #### o	Generate the project file
