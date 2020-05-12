@@ -44,7 +44,7 @@ Connect AVR128DA48 Curiosity Nano Board to Host Computer (PC) using standard Mic
 1. Open Standalone Data Visualizer. Select Virtual COM Port to which AVR DA nano board is connected. Click **Connect**.
 
     **Note:** *Alternately, open the MPLAB Data Visualizer plugin extension available to MPLAB X IDE.*
-  <br><img src="images/data-visualizer.png" width="500">
+  <br><img src="images/data-visualizer.png" width="600">
 
 2. Open the crc16/crc32 project in MPLAB X IDE. (File -> Open Project)
 3. Clean the project. (Right click on project name and click Clean)
@@ -119,7 +119,7 @@ The polynomial options are:
 The pre-calculated checksum must be present in the last location of the section to be checked. **As this example checks CRC for entire Flash, CRC is placed in last location of Flash. (which is happened to be in APPDATA section)**
 
 **Note:** *Refer* **add post build command** *subsection in* **Firmware Generation** *section to know how to pre-calculate CRC Flash memory and place in last location of Flash using Hexmate.*
-<br><img src="images/memory.png" width="500">
+<br><img src="images/memory.png" width="550">
 
 
 ### Firmware Generation
@@ -130,7 +130,7 @@ This section explains how to generate firmware using MCC.
 - Select Microchip Embedded -> Standalone Project
 - Select AVR128DA48 as the target device
 - Select XC8 as compiler
-- Open MCC by clicking the MCC icon in the toolbar. ![](images/mcc-icon.png)
+- Open MCC by clicking the MCC icon in the toolbar ![](images/mcc-icon.png)
 
 #### 2. Configure MCC
 ##### o	Add Peripherals to project
@@ -161,7 +161,7 @@ In this example, USART1 is used to transmit data to the terminal window to displ
 
 #### o	Configure PIT
 In this example, PIT is used to generate periodic event for every 8 seconds.  The PIT interrupt is used to check CRC of the program memory. PIT is part of RTC module, thus PIT configuration options are available under RTC configuration window.
-- Uncheck the **Enable RTC option**
+- Uncheck the **Enable RTC** option
 - Select **RTC Clock Source Selection** option as **Internal 1.024 kHz oscillator**
 - Check the **PIT Enable** option
 - Select the **Period Selection** as **RTC Clock Cycles 8192**
@@ -179,7 +179,7 @@ In this example, PIT is used to generate periodic event for every 8 seconds.  Th
 #### In Pin Module,
 - Give custom name LED0 to the pin PC6. Set pin PC6 (LED0) output default status to **HIGH**, by checking **START HIGH** option for pin PC6 in pin module section. Thereby, LED0 turn off after the pin initialization.
 - Give custom name SW0 to the pin PC7. Check **PULLUPEN** option for SW0 and configure  **ISC** to **Sense Rising Edge**
-<br><img src="images/pin-module.png" width="500">
+<br><img src="images/pin-module.png" width="650">
 
 #### o	Enable Global Interrupt
 - Check **Global Interrupt Enable** option in **Interrupt Manager** window
