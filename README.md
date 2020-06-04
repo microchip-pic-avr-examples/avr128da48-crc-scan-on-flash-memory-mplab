@@ -14,7 +14,7 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 **Note:** *This example is valid for all the AVR DA family MCUs*
 
 **To see the CRC SCAN on Flash memory demo operation video, click on the below image.**
-<a href="https://youtu.be/Z_syAVUn_zY" rel="nofollow"><img src="images/youtube.png" alt="AVR DA" width="300"/></a>
+<br><a href="https://youtu.be/Z_syAVUn_zY" rel="nofollow"><img src="images/youtube.png" alt="AVR DA" width="500"/></a>
 
 
 ## Useful Links
