@@ -13,6 +13,11 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 
 **Note:** *This example is valid for all the AVR DA family MCUs*
 
+**To see the CRC SCAN on Flash memory demo operation video, click on the below image.**
+<br><img src="images/youtube.png" width="400">
+<a href="https://youtu.be/Z_syAVUn_zY" rel="nofollow"><img src="images/youtube.png" alt="AVR DA" width="300"/></a>
+
+
 ## Useful Links
 - [AVR128DA48 Product Page](https://www.microchip.com/wwwproducts/en/AVR128DA28 "AVR128DA48 Product Page")
 - [AVR128DA48 Code Examples on GitHub](https://github.com/microchip-pic-avr-examples?q=avr128da48 "AVR128DA48 Code Examples on GitHub")
