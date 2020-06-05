@@ -26,7 +26,9 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 - [Hexmate](https://microchipdeveloper.com/xc8:hexmate-cli "Hexmate")
 
 ## Application Code Flow Diagram
+<p align="center">
 <br><img src="images/firmware-flowchart.png" width="400">
+</p>
 
 ## Software Used
 - [MPLAB X IDE v5.40](https://www.microchip.com/mplab/mplab-x-ide "MPLAB X IDE v5.40")
