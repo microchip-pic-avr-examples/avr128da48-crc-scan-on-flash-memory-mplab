@@ -34,7 +34,7 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 - [MPLAB X IDE v5.40](https://www.microchip.com/mplab/mplab-x-ide "MPLAB X IDE v5.40")
 - [XC8 Compiler v2.20](https://www.microchip.com/mplab/compilers "XC8 Compiler v2.20")
 - [MPLAB Code Configurator (MCC) v3.95.0](https://www.microchip.com/mplab/mplab-code-configurator "MPLAB Code Configurator (MCC) v3.95.0")
-- AVR8bit Lib v2.2.2
+- AVR8bit Lib v2.3.0
 - AVR-Dx DFP 1.1.40
 - [Standalone Data Visualizer v2.20.674](https://www.microchip.com/mplab/avr-support/data-visualizer "Standalone Data Visualizer v2.20.674")
 
@@ -212,7 +212,7 @@ This command keeps the application code at 0x400 location in the Flash memory. I
 <br><img src="images/post-build.png" width="500">
 
 **Command:**
-`"C:\Program Files (x86)\Microchip\MPLABX\v5.35\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath} -FILL=0xFFFF@0x0000:0x1FFFD -CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021`
+`"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath} -FILL=0xFFFF@0x0000:0x1FFFD -CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021`
 
 This post build command takes the generated HEX file by linker, fill the remaining space of Flash with 0xFFFF (-FILL=0xFFFF@0x0000:0x1FFFD), calculate CRC, and keep the CRC checksum at the last 2 bytes of Flash. (-CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021).
 
@@ -221,6 +221,6 @@ CRC-16 example calculates a CRC (g5), using an initial value of 0xFFFF (+0xFFFF)
 For other Hexmate options, see the Utilities Chapter in the MPLAB XC8 C Compiler User Guide.
 
 **For CRC-32 use following command**
-`"C:\Program Files (x86)\Microchip\MPLABX\v5.35\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+`"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
 
 **Note:** *For CRC-32, XOR operation needs to be performed on the generated checksum. This option is not available with Hexmate. Thus, the final XOR operation is performed by the MCU.*
