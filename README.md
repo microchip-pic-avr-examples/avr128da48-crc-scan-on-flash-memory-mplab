@@ -9,8 +9,6 @@ In this example, the CRCSCAN peripheral periodically performs CRC scan on Flash 
 
 The result of CRC scan is displayed on a terminal window of data visualizer as well as indicated by on-board LED (LED0) of AVR128DA48 Curiosity Nano board. Upon switch (SW0) press event, one-byte of data in the Flash memory is modified using NVMCTRL peripheral. This results in CRC failure during the subsequent CRC scan.
 
-**This example contains two firmware projects, one for CRC-16 and other for CRC-32. Both the firmwares are independent and showcase the usage of CRC-16 and CRC-32, respectively.**
-
 **Note:** *This example is valid for all the AVR DA family MCUs*
 
 **To see the CRC SCAN on Flash memory demo operation video, click on the below image.**
@@ -22,7 +20,7 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 - [AVR128DA48 Product Page](https://www.microchip.com/wwwproducts/en/AVR128DA28 "AVR128DA48 Product Page")
 - [AVR128DA48 Code Examples on GitHub](https://github.com/microchip-pic-avr-examples?q=avr128da48 "AVR128DA48 Code Examples on GitHub")
 - [AVR128DA48 Project Examples in START](https://start.atmel.com/#examples/AVR128DA48CuriosityNano "AVR128DA48 Project Examples in START")
-- [CRC SCAN ON FLASH MEMORY - Studio Example](avr128da48-crc-scan-on-flash-memory-mplab "CRC SCAN ON FLASH MEMORY - Studio Example")
+- [CRC SCAN ON FLASH MEMORY - Studio Example](https://github.com/microchip-pic-avr-examples/avr128da48-crc-scan-on-flash-memory-studio "CRC SCAN ON FLASH MEMORY - Studio Example")
 - [Hexmate](https://microchipdeveloper.com/xc8:hexmate-cli "Hexmate")
 
 ## Application Code Flow Diagram
@@ -76,6 +74,14 @@ Connect AVR128DA48 Curiosity Nano Board to Host Computer (PC) using standard Mic
 
 **Note:** *Clean the project and then program the device by clicking* **Make and Program Device** ![](images/program-device-icon.png)
 
+## Changes for CRC32
+This example firmware uses CRC-16 by default. To use CRC32 make following changes to the project:
+1. Uncomment `#define CRC32` *(main.c/->line 35)*
+2. Change **SYSCFG0 fuse** *(MCC Generated Files/device_config.c/->line 46)* to
+  `.SYSCFG0 = CRCSEL_CRC32_gc | CRCSRC_NOCRC_gc | RSTPINCFG_GPIO_gc,`
+3. Change post build command *(project name -> Properties -> Conf -> Building -> Execute this line after build)* to
+  `"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+
 ## Summary
 This example demonstrates how CRCSCAN peripheral can be used to perform integrity check on Flash memory. It also demonstrates use of MNVCTRL peripheral to perform read and write operations on Flash memory in runtime.
 The Below sections give brief explanation of Flash memory structure and CRC peripheral of AVR DA family for better understanding of the demo. Firmware generation section explains firmware generation using MCC and MPLAB X Linker options and Hexmate tools options used for this demo.
@@ -105,20 +111,20 @@ The CRC scan can be set up to scan the entire Flash, only the boot section, or b
 
 The CRCSCAN can be configured to perform a code memory scan before the device leaves Reset. If this check fails, the CPU is not allowed to start normal code execution. This option is enabled for CRC-16 firmware.
 
-**Note:** *For CRC-32, XOR operation needs to be performed on the generated checksum.  This option is not available with Hexmate. The Final XOR operation is performed by the MCU. So, this option cannot be enabled for CRC-32.*
+**Note:** *For CRC32, XOR operation needs to be performed on the generated checksum.  This option is not available with Hexmate. The Final XOR operation is performed by the MCU. So, this option cannot be enabled for CRC32.*
 
 
 
 #### CRC Polynomials Options
 
-The CRC generator supports CRC-16-CCITT and CRC-32 (IEEE 802.3).
+The CRC generator supports CRC-16-CCITT and CRC32 (IEEE 802.3).
 
 The polynomial options are:
 - CRC-16-CCITT: x16 + x12 + x5 + 1
-- CRC-32: x32 + x26 + x23 + x22 + x16 + x12 + x11 + x10 + x8 + x7 + x5 + x4 + x2 + x + 1
+- CRC32: x32 + x26 + x23 + x22 + x16 + x12 + x11 + x10 + x8 + x7 + x5 + x4 + x2 + x + 1
 
 
-**This example contains two firmware projects, one for CRC-16 and other for CRC-32.**
+**This example contains two firmware projects, one for CRC-16 and other for CRC32.**
 
 
 #### Location to store pre-calculated CRC
@@ -150,10 +156,10 @@ Fuse setting options are available under Registers tab of System Module.
 - Set **CODESIZE** Register to **0xFE**
 - Configure **CRCSEL** in **SYSCFG0** register to **Enable CRC 16**
 
-  **Note:** *In case of CRC-32, configure* **CRCSEL** *to* **Enable CRC 32**
+  **Note:** *In case of CRC32, configure* **CRCSEL** *to* **Enable CRC 32**
 - Configure **CRCSRC** in **SYSCFG0** register to **CRC OF FULL FLASH**
 
-  **Note:** *In case of CRC-32, Configure* **CRCSEL** *to* **NOCRC** *because Hexmate cannot generate CRC-32 checksum.*
+  **Note:** *In case of CRC32, Configure* **CRCSEL** *to* **NOCRC** *because Hexmate cannot generate CRC32 checksum.*
 <br><img src="images/size-fuse.png" width="500">
 <br><img src="images/crc-fuse.png" width="500">
 
@@ -220,7 +226,7 @@ CRC-16 example calculates a CRC (g5), using an initial value of 0xFFFF (+0xFFFF)
 
 For other Hexmate options, see the Utilities Chapter in the MPLAB XC8 C Compiler User Guide.
 
-**For CRC-32 use following command**
+**For CRC32 use following command**
 `"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
 
-**Note:** *For CRC-32, XOR operation needs to be performed on the generated checksum. This option is not available with Hexmate. Thus, the final XOR operation is performed by the MCU.*
+**Note:** *For CRC32, XOR operation needs to be performed on the generated checksum. This option is not available with Hexmate. Thus, the final XOR operation is performed by the MCU.*
