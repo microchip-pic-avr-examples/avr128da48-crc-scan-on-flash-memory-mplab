@@ -105,13 +105,12 @@ The sizes of these sections are set by the Boot Size (FUSE.BOOTSIZE) fuse and th
 
 
 ## CRCSCAN in AVR DA
-#### CRC SCAN Options
 
 The CRC scan can be set up to scan the entire Flash, only the boot section, or both the boot and application code sections.  **In this example, it is set to scan entire Flash.**
 
 The CRCSCAN can be configured to perform a code memory scan before the device leaves Reset. If this check fails, the CPU is not allowed to start normal code execution. This option is enabled for CRC-16 firmware.
 
-**Note:** *For CRC32, XOR operation needs to be performed on the generated checksum.  This option is not available with Hexmate. The Final XOR operation is performed by the MCU. So, this option cannot be enabled for CRC32.*
+**Note:** *For CRC32, XOR operation needs to be performed on the generated checksum.  This option is not available with Hexmate. The Final XOR operation is performed by the MCU. So, this option cannot be enabled for CRC32.*    
 
 
 
@@ -124,7 +123,7 @@ The polynomial options are:
 - CRC32: x32 + x26 + x23 + x22 + x16 + x12 + x11 + x10 + x8 + x7 + x5 + x4 + x2 + x + 1
 
 
-**This example contains two firmware projects, one for CRC-16 and other for CRC32.**
+**This example contains two firmware projects, one for CRC-16 and other for CRC32.**     
 
 
 #### Location to store pre-calculated CRC
