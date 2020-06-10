@@ -87,7 +87,7 @@ This example demonstrates how CRCSCAN peripheral can be used to perform integrit
 The Below sections give brief explanation of Flash memory structure and CRC peripheral of AVR DA family for better understanding of the demo. Firmware generation section explains firmware generation using MCC and MPLAB X Linker options and Hexmate tools options used for this demo.
 
 ## Appendix:
-### Flash Memory in AVR DA
+## Flash Memory in AVR DA
 The AVR128DA28/32/48/64 devices contain 128 KB on-chip in-system reprogrammable Flash memory for program storage. For write protection, the Flash program memory space can be divided into three sections: Boot Code section, Application Code section, and Application Data section.
 Refer below table for details of Flash section write access.
 <br><img src="images/table.png" width="500">
@@ -104,7 +104,7 @@ The sizes of these sections are set by the Boot Size (FUSE.BOOTSIZE) fuse and th
 
 
 
-### CRCSCAN in AVR DA
+## CRCSCAN in AVR DA
 #### CRC SCAN Options
 
 The CRC scan can be set up to scan the entire Flash, only the boot section, or both the boot and application code sections.  **In this example, it is set to scan entire Flash.**
@@ -135,7 +135,7 @@ The pre-calculated checksum must be present in the last location of the section 
 <br><img src="images/memory.png" width="550">
 
 
-### Firmware Generation
+## Firmware Generation
 This section explains how to generate firmware using MCC.
 #### 1. Create a New MPLAB X Project and Open MCC
 - Open the MPLAB X IDE
