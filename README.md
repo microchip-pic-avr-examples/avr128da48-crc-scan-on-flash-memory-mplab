@@ -112,7 +112,7 @@ The CRCSCAN can be configured to perform a code memory scan before the device le
 
 **Note:** *For CRC32, XOR operation needs to be performed on the generated checksum.  This option is not available with Hexmate. The Final XOR operation is performed by the MCU. So, this option cannot be enabled for CRC32.*    
 
-
+<p>&nbsp;</p>
 
 #### CRC Polynomials Options
 
@@ -123,8 +123,9 @@ The polynomial options are:
 - CRC32: x32 + x26 + x23 + x22 + x16 + x12 + x11 + x10 + x8 + x7 + x5 + x4 + x2 + x + 1
 
 
-**This example contains two firmware projects, one for CRC-16 and other for CRC32.**     
-
+**This example contains two firmware projects, one for CRC-16 and other for CRC32.**    
+ 
+<p>&nbsp;</p>
 
 #### Location to store pre-calculated CRC
 
