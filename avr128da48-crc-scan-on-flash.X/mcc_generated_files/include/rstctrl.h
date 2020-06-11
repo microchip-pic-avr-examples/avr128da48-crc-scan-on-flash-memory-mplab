@@ -31,32 +31,35 @@
 */
 
 
-#ifndef MCC_H
-#define	MCC_H
+#ifndef RSTCTRL_INCLUDED
+#define RSTCTRL_INCLUDED
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "utils/compiler.h"
-#include "include/pin_manager.h"
-#include "include/crcscan.h"
-#include "include/usart1.h"
-#include "include/rtc.h"
-#include "include/nvmctrl.h"
-#include "include/cpuint.h"
-#include "config/clock_config.h"
+#include "ccp.h"
 
-/**
- * Initializes MCU, drivers and middleware in the project
-**/
-void SYSTEM_Initialize(void);
-int8_t BOD_Initialize();
-int8_t CLKCTRL_Initialize();
-int8_t SLPCTRL_Initialize();
-int8_t WDT_Initialize();
+static inline void RSTCTRL_reset(void)
+{
+    /* SWRR is protected with CCP */
+        ccp_write_io((void *)&RSTCTRL.SWRR, 0x0);
+
+}
+
+static inline uint8_t RSTCTRL_get_reset_cause(void)
+{
+	return RSTCTRL.RSTFR;
+}
+
+static inline void RSTCTRL_clear_reset_cause(void)
+{
+	RSTCTRL.RSTFR
+	    = RSTCTRL_UPDIRF_bm | RSTCTRL_SWRF_bm | RSTCTRL_WDRF_bm | RSTCTRL_EXTRF_bm | RSTCTRL_BORF_bm | RSTCTRL_PORF_bm;
+}
 
 #ifdef __cplusplus
 }
 #endif
-#endif	/* MCC_H */
+
+#endif /* RSTCTRL_INCLUDED */

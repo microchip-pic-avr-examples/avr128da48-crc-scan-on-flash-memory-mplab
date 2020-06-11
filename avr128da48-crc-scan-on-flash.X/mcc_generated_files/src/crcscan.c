@@ -31,42 +31,40 @@
 */
 
 
-/**
- * \defgroup doc_driver_utils_assert Functionality for assert.
- * \ingroup doc_driver_utils
- *
- * \{
- */
-
-#ifndef _ASSERT_H_INCLUDED
-#define _ASSERT_H_INCLUDED
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include <stdbool.h>
+#include "../include/crcscan.h"
 
 /**
- * \brief Assert macro
- *
- * This macro is used to throw asserts. It can be mapped to different function
- * based on debug level.
- *
- * \param[in] condition A condition to be checked;
- *                      assert is thrown if the given condition is false
+ * \brief Initialize crcscan interface
  */
+int8_t CRC_Initialize(void)
+{
+    //SRC FLASH; 
+    CRCSCAN.CTRLB = 0x00;
 
-#ifdef DEBUG
-#define ASSERT(condition)                                                                                              \
-	if (!(condition))                                                                                                  \
-		while (true)                                                                                                   \
-			;
-#else
-#define ASSERT(condition) ((void)0)
-#endif
+    //RESET disabled; NMIEN disabled; ENABLE disabled; 
+    CRCSCAN.CTRLA = 0x00;
 
-#ifdef __cplusplus
+    return 0;
 }
-#endif
-#endif /* _ASSERT_H_INCLUDED */
+
+/**
+ * \brief Reset CRCSCAN module
+ *
+ * \return The status whether CRCSCAN is reset or not
+ * \retval false The CRCSCAN module is not reset
+ * \retval true The CRCSCAN module is reset
+ */
+bool CRC_Reset()
+{
+    if ((CRCSCAN.CTRLA & CRCSCAN_NMIEN_bm) && (CRCSCAN.STATUS & CRCSCAN_BUSY_bm)){
+            return false;          
+        }else { 
+            CRCSCAN.CTRLA |= CRCSCAN_RESET_bm;
+            return true;
+        }
+}
+
+ISR(NMI_vect)
+{
+	/* Insert your CRCSCAN interrupt handling code here */
+}

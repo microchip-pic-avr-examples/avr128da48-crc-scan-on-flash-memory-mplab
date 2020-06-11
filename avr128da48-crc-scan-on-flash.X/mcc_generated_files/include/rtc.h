@@ -5,7 +5,7 @@
   @Description
     This Source file provides APIs.
     Generation Information :
-    Driver Version    :   1.0.0
+    Driver Version    :   2.0.0
 */
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -31,32 +31,34 @@
 */
 
 
-#ifndef MCC_H
-#define	MCC_H
+#ifndef RTCDRIVER_H
+#define RTCDRIVER_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "../utils/compiler.h"
+#include <stdint.h>
+#include <stdbool.h>
 
-#include "utils/compiler.h"
-#include "include/pin_manager.h"
-#include "include/crcscan.h"
-#include "include/usart1.h"
-#include "include/cpuint.h"
-#include "include/nvmctrl.h"
-#include "include/rtc.h"
-#include "config/clock_config.h"
+/** Datatype used to hold the number of ticks until a timer expires */
 
-/**
- * Initializes MCU, drivers and middleware in the project
-**/
-void SYSTEM_Initialize(void);
-int8_t BOD_Initialize();
-int8_t CLKCTRL_Initialize();
-int8_t SLPCTRL_Initialize();
-int8_t WDT_Initialize();
+typedef void (*RTC_cb_t)(void);
+void RTC_SetOVFIsrCallback(RTC_cb_t cb);
+void RTC_SetCMPIsrCallback(RTC_cb_t cb);
+void RTC_SetPITIsrCallback(RTC_cb_t cb);
+int8_t RTC_Initialize();
+void RTC_WriteCounter(uint16_t timerVal);
+void RTC_WritePeroid(uint16_t timerVal);
+uint16_t RTC_ReadCounter();
+uint16_t RTC_ReadPeriod();
+void RTC_EnableCMPInterrupt();
+void RTC_DisableCMPInterrupt();
+void RTC_EnableOVFInterrupt();
+void RTC_DisableOVFInterrupt();
+void RTC_EnablePITInterrupt();
+void RTC_DisablePITInterrupt();
+void RTC_ClearOVFInterruptFlag();
+bool RTC_IsOVFInterruptEnabled();
 
-#ifdef __cplusplus
-}
-#endif
-#endif	/* MCC_H */
+
+#endif /* RTCDRIVER_H */
+
+/** @}*/

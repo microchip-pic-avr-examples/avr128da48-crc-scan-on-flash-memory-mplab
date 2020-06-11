@@ -5,7 +5,7 @@
   @Description
     This Source file provides APIs.
     Generation Information :
-    Driver Version    :   1.0.0
+    Driver Version    :   2.0.0
 */
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -48,7 +48,7 @@ void (*RTC_PIT_isr_cb)(void) = NULL;
  */
 int8_t RTC_Initialize()
 {
-        while (RTC.STATUS > 0) { /* Wait for all register to be synchronized */
+    while (RTC.STATUS > 0) { /* Wait for all register to be synchronized */
     }
     //Compare 
     RTC.CMP = 0x00;
@@ -62,24 +62,18 @@ int8_t RTC_Initialize()
     //Clock selection
     RTC.CLKSEL = 0x01;
 
-    //DBGRUN disabled; 
-    RTC.DBGCTRL = 0x00;
-
     //CMP disabled; OVF disabled; 
     RTC.INTCTRL = 0x00;
 
+    
+    while (RTC.PITSTATUS > 0) { /* Wait for all register to be synchronized */
+    }
+    //PI enabled; 
+    RTC.PITINTCTRL = 0x01;
+        
     //PERIOD CYC8192; PITEN enabled; 
     RTC.PITCTRLA = 0x61;
-
-    //DBGRUN disabled; 
-    RTC.PITDBGCTRL = 0x00;
-
-    //PI enabled; 
-	RTC.PITINTCTRL = 0x01;
-
-    //RUNSTDBY disabled; PRESCALER DIV1; CORREN disabled; RTCEN disabled; 
-    RTC.CTRLA = 0x00;
-
+     
     return 0;
 }
 
@@ -91,6 +85,11 @@ void RTC_SetOVFIsrCallback(RTC_cb_t cb)
 void RTC_SetCMPIsrCallback(RTC_cb_t cb)
 {
     RTC_CMP_isr_cb = cb;
+}
+
+void RTC_SetPITIsrCallback(RTC_cb_t cb)
+{
+    RTC_PIT_isr_cb = cb;
 }
 
 ISR(RTC_CNT_vect)

@@ -42,8 +42,8 @@ void SYSTEM_Initialize(void)
     BOD_Initialize();
     //CPU_Initialize();
     WDT_Initialize();
-    CLKCTRL_Initialize();
     SLPCTRL_Initialize();
+    CLKCTRL_Initialize();
     CRC_Initialize();
     FLASH_Initialize();
     RTC_Initialize();
