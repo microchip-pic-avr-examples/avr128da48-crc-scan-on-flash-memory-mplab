@@ -72,7 +72,7 @@ Connect AVR128DA48 Curiosity Nano Board to Host Computer (PC) using standard Mic
 10. Subsequent scan will result in CRC success. LED turns OFF.
 <br><img src="images/dv6.png" width="500">
 
-**Note:** *Clean the project and then program the device by clicking* **Make and Program Device** ![](images/program-device-icon.png)
+**IMPORTANT NOTE:** *Clean the project and then program the device by clicking* **Make and Program Device** ![](images/program-device-icon.png)
 
 ## Changes for CRC32
 This example firmware uses CRC16 by default. To use CRC32 make following changes to the project:
