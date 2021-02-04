@@ -3,28 +3,28 @@
     "category": "com.microchip.ide.project",
     "content": {
         "metaDataVersion": "1.1.0",
-        "name": "com.microchip.mcu8.mplabx.project.",
-        "version": " ",
-        "displayName": "  ",
-        "projectName": "",
-        "shortDescription": "",
+        "name": "com.microchip.mcu8.mplabx.project.avr128da48-crc-scan-on-flash-memory-mplab",
+        "version": "1.0.1",
+        "displayName": "CRC Scan on Flash memory MPLAB example",
+        "projectName": "avr128da48-crc-scan-on-flash-memory-mplab",
+        "shortDescription": "This example demonstrates usage of Cyclic Redundancy Check Memory Scan (CRCSCAN) peripheral to perform CRC operation on the Flash memory and Nonvolatile Memory Controller (NVMCTRL) peripheral to perform read and write operations on the Flash memory in runtime.",
         "ide": {
-            "name": "",
-            "semverRange": ""
+            "name": "MPLAB X",
+            "semverRange": ">=5.40.0"
         },
         "compiler": [
 			{
-				"name": "",
-				"semverRange": ""
+				"name": "XC8",
+				"semverRange": "^2.20.0"
 			}
 		],
         "dfp": {
-            "name": "",
-            "semverRange": ""
+            "name": "AVR-Dx_DFP",
+            "semverRange": "^1.1.40"
         },
         "configurator": {
-            "name": "",
-            "semverRange": ""
+            "name": "MCC",
+            "semverRange": "^3.95.0"
         },
         "device": {
             "metaDataVersion": "1.0.0",
@@ -32,26 +32,40 @@
             "content": {
                 "metaDataVersion": "1.0.0",
                 "category": "com.microchip.device",
-                "name": "",
+                "name": "AVR128DA48",
                 "versionRange": "*"
             }
         },
         "author": "",
         "subcategories": [
-            "",
+            "MCC",
             [
-               "Peripherals", ""
+               "Peripherals", "CRC"
             ],
             [
-               "Peripherals", ""
-            ]            			
+               "Peripherals", "NVM"
+            ],
+			[
+               "Peripherals", "RTC"
+            ],
+			[
+               "Peripherals", "USART"
+            ]          			
         ],
         "peripherals": [
-            "",""
+            "CRC","NVM","RTC","USART"
         ],
         "keywords": [
-            "",
-            ""			
+            "Flash",
+            "CRC",
+			"16-bit CRC",
+			"32-bit CRC",
+			"LED",
+			"Switch",
+			"AVR DA",
+			"AVR128DA48",
+			"Curiosity Nano Evaluation Kit",
+			"Interrupt"			
         ],
 		"additionalData": {
 			"longDescription": {
