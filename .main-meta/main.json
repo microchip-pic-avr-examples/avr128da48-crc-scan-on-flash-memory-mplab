@@ -7,7 +7,7 @@
         "version": "1.0.1",
         "displayName": "CRC Scan on Flash memory - MPLAB X project",
         "projectName": "avr128da48-crc-scan-on-flash",
-        "shortDescription": "This example demonstrates usage of Cyclic Redundancy Check Memory Scan (CRCSCAN) peripheral to perform CRC operation on the Flash memory and Nonvolatile Memory Controller (NVMCTRL) peripheral to perform read and write operations on the Flash memory in runtime.",
+        "shortDescription": "This  example demonstrates the use of peripheral NVMCTRL and CRCSCAN, to perform read and write operations in run time and CRC scan operation on Flash memory. This example can work with all the  variants of AVR DA family microcontrollers.",
         "ide": {
             "name": "MPLAB X",
             "semverRange": ">=5.40.0"
