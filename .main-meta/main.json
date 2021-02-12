@@ -58,7 +58,6 @@
         ],
         "keywords": [
             "Flash",
-            "CRC",
 			"16-bit CRC",
 			"32-bit CRC",
 			"LED",
