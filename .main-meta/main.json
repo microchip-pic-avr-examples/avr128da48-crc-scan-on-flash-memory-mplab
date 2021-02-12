@@ -39,8 +39,6 @@
         "author": "Microchip",
         "subcategories": [
             "MCC",
-			"Security",
-			"Communications",
 			"Functional Safety",
             [
                "Peripherals", "CRC"
