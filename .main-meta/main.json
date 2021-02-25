@@ -62,9 +62,9 @@
 			"32-bit CRC",
 			"LED",
 			"Switch",
-			"AVR DA",
-			"AVR128DA48",
-			"Curiosity Nano Evaluation Kit",
+			"Checksum",
+			"Polynomial",
+			"Curiosity Nano",
 			"Interrupt"			
         ],
 		"additionalData": {
