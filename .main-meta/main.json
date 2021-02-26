@@ -57,15 +57,9 @@
             "CRC","NVM","RTC","USART"
         ],
         "keywords": [
-            "Flash",
-			"16-bit CRC",
-			"32-bit CRC",
-			"LED",
-			"Switch",
-			"Checksum",
-			"Polynomial",
 			"Curiosity Nano",
-			"Interrupt"			
+			"Flash Memory",
+			"Memory Scan"
         ],
 		"additionalData": {
 			"longDescription": {
