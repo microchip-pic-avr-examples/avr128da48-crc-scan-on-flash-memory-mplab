@@ -39,7 +39,6 @@
         "author": "Microchip",
         "subcategories": [
             "MCC",
-			"Functional Safety",
             [
                "Peripherals", "CRC"
             ],
@@ -59,7 +58,8 @@
         "keywords": [
 			"Curiosity Nano",
 			"Flash Memory",
-			"Memory Scan"
+			"Memory Scan",
+			"Data Visualizer"
         ],
 		"additionalData": {
 			"longDescription": {
