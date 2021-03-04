@@ -4,7 +4,7 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.avr128da48-crc-scan-on-flash-memory-mplab",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "displayName": "CRC Scan on Flash memory - MPLAB X project",
         "projectName": "avr128da48-crc-scan-on-flash-memory-mplab",
         "shortDescription": "This  example demonstrates the use of peripheral NVMCTRL and CRCSCAN, to perform read and write operations in run time and CRC scan operation on Flash memory. This example can work with all the  variants of AVR DA family microcontrollers.",
