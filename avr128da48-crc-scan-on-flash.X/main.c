@@ -21,7 +21,7 @@
     SOFTWARE.
 */
 
-#include "mcc_generated_files/mcc.h"
+#include "mcc_generated_files/system/system.h"
 
 /**
     Uncomment line 35 (#define CRC32) to use CRC32 firmware.
@@ -73,7 +73,7 @@ int main(void) {
     /* Set interrupt handler for PIT interrupt */
     RTC_PIT_isr_cb = &PITInterrupt;
     /* Set interrupt handler for switch press interrupt */
-    PORTC_SW0_SetInterruptHandler(SwitchPressInterrupt);
+    PC7_SetInterruptHandler(SwitchPressInterrupt);
 
     /* Read "Pre-calculated crc" from flash */
     preCalculatedCRC = (uint32_t) FLASH_ReadFlashByte(crcStoredAddress);

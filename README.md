@@ -1,3 +1,4 @@
+
 <!-- Please do not change this html logo with link -->
 <a href="https://www.microchip.com" rel="nofollow"><img src="images/microchip.png" alt="MCHP" width="300"/></a>
 
@@ -29,11 +30,10 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 </p>
 
 ## Software Used
-- [MPLAB X IDE v5.40](https://www.microchip.com/mplab/mplab-x-ide "MPLAB X IDE v5.40")
-- [XC8 Compiler v2.20](https://www.microchip.com/mplab/compilers "XC8 Compiler v2.20")
-- [MPLAB Code Configurator (MCC) v3.95.0](https://www.microchip.com/mplab/mplab-code-configurator "MPLAB Code Configurator (MCC) v3.95.0")
-- [AVR8bit Lib v2.3.0](https://www.microchip.com/mplab/mplab-code-configurator "AVR8bit Lib v2.3.0")
-- AVR-Dx DFP 1.1.40
+- [MPLAB X IDE v5.45](https://www.microchip.com/mplab/mplab-x-ide "MPLAB X IDE v5.45")
+- [XC8 Compiler v2.32](https://www.microchip.com/mplab/compilers "XC8 Compiler v2.32")
+- [MPLAB Code Configurator (MCC) v4.1.0](https://www.microchip.com/mplab/mplab-code-configurator "MPLAB Code Configurator (MCC) v4.1.0")
+- AVR-Dx DFP 1.7.98
 - [Standalone Data Visualizer v2.20.674](https://www.microchip.com/mplab/avr-support/data-visualizer "Standalone Data Visualizer v2.20.674")
 
 **Note:** *For running the demo, the installed tool versions should be same or later.*
@@ -80,7 +80,9 @@ This example firmware uses CRC16 by default. To use CRC32 make following changes
 2. Change **SYSCFG0 fuse** *(MCC Generated Files/device_config.c/->line 46)* to
   `.SYSCFG0 = CRCSEL_CRC32_gc | CRCSRC_NOCRC_gc | RSTPINCFG_GPIO_gc,`
 3. Change post build command *(project name -> Properties -> Conf -> Building -> Execute this line after build)* to
-  `"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+  `"C:\Program Files (x86)\Microchip\MPLABX\v5.45\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+
+**Note:** The system path for hexmate tool is dependent on the MPLAB version installed and the operating system used.
 
 ## Summary
 This example demonstrates how CRCSCAN peripheral can be used to perform integrity check on Flash memory. It also demonstrates use of MNVCTRL peripheral to perform read and write operations on Flash memory in runtime.
@@ -135,73 +137,9 @@ The pre-calculated checksum must be present in the last location of the section 
 <br><img src="images/memory.png" width="550">
 
 
-## Firmware Generation
-This section explains how to generate firmware using MCC.
-#### 1. Create a New MPLAB X Project and Open MCC
-- Open the MPLAB X IDE
-- Create New project: File -> New Project
-- Select Microchip Embedded -> Standalone Project
-- Select AVR128DA48 as the target device
-- Select XC8 as compiler
-- Open MCC by clicking the MCC icon in the toolbar ![](images/mcc-icon.png)
+## Adding Linker and Post Build Command
 
-#### 2. Configure MCC
-##### o	Add Peripherals to project
-- Add CRCSCAN, NVMCTRL, RTC, USART1 to the project.
-<br><img src="images/add-peripherals.png" width="450">
-
-#### o	Set Fuses
-Fuse setting options are available under Registers tab of System Module.
-- Set **BOOTSIZE** Register to **0x2**
-- Set **CODESIZE** Register to **0xFE**
-- Configure **CRCSEL** in **SYSCFG0** register to **Enable CRC 16**
-
-  **Note:** *In case of CRC32, configure* **CRCSEL** *to* **Enable CRC 32**
-- Configure **CRCSRC** in **SYSCFG0** register to **CRC OF FULL FLASH**
-
-  **Note:** *In case of CRC32, Configure* **CRCSEL** *to* **NOCRC** *because Hexmate cannot generate CRC32 checksum.*
-<br><img src="images/size-fuse.png" width="500">
-<br><img src="images/crc-fuse.png" width="500">
-
-#### o	Configure CRCSCAN
-- Configure the **CRC Source** as **CRC on entire flash**
-<br><img src="images/crcscan.png" width="500">
-
-#### o	Configure USART
-In this example, USART1 is used to transmit data to the terminal window to display the stored CRC value as well as the end result message.
-- Check the **Printf support** option in the **Software settings section**
-<br><img src="images/uart.png" width="500">
-
-#### o	Configure PIT
-In this example, PIT is used to generate periodic event for every 8 seconds.  The PIT interrupt is used to check CRC of the program memory. PIT is part of RTC module, thus PIT configuration options are available under RTC configuration window.
-- Uncheck the **Enable RTC** option
-- Select **RTC Clock Source Selection** option as **Internal 1.024 kHz oscillator**
-- Check the **PIT Enable** option
-- Select the **Period Selection** as **RTC Clock Cycles 8192**
-- Check the **PIT interrupt Enable** option
-- Uncheck **Overflow Interrupt Enable** option
-<br><img src="images/rtc.png" width="500">
-<br><img src="images/pit.png" width="500">
-
-#### o	Configure the Pins used
-#### In Pin Manager: Grid View,
-- Set pin PC6 as output for LED indication
-- Set pin PC7 as input for Switch press event
-<br><img src="images/pin-grid.png" width="650">
-
-#### In Pin Module,
-- Give custom name LED0 to the pin PC6. Set pin PC6 (LED0) output default status to **HIGH**, by checking **START HIGH** option for pin PC6 in pin module section. Thereby, LED0 turn off after the pin initialization.
-- Give custom name SW0 to the pin PC7. Check **PULLUPEN** option for SW0 and configure  **ISC** to **Sense Rising Edge**
-<br><img src="images/pin-module.png" width="650">
-
-#### o	Enable Global Interrupt
-- Check **Global Interrupt Enable** option in **Interrupt Manager** window
-<br><img src="images/interrupt-manager.png" width="500">
-
-#### o	Generate the project file
-Click Generate button next to the project Resources heading under **Tree view** section to generate code according to the configuration. Add custom code to the project present in *main.c* file.
-
-#### 3. Add Linker Command
+#### 1. Add Linker Command
 - Open Project Properties by right clicking **project name -> Properties**
 - Add a linker command to the project under **XC8 Global Options -> XC8 Linker -> Additional options**, as shown below
 <br><img src="images/linker.png" width="500">
@@ -211,7 +149,7 @@ Click Generate button next to the project Resources heading under **Tree view** 
 
 This command keeps the application code at 0x400 location in the Flash memory. It is the start of APPCODE section of Flash as discussed in the previous section. For details of other linker commands refer MPLAB XC8 C Compiler User Guide for AVR MCU.
 
-#### 4. Add Post Build Command
+#### 2. Add Post Build Command
 - Open Project Properties by right clicking **project name -> Properties**
 - Add a post-build command to the project under **Conf -> Building**, as shown below
 - Also check the **Execute this line after build** option as shown below
