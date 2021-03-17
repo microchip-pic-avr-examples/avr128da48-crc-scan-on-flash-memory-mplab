@@ -33,7 +33,9 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 - [MPLAB X IDE v5.45](https://www.microchip.com/mplab/mplab-x-ide "MPLAB X IDE v5.45")
 - [XC8 Compiler v2.32](https://www.microchip.com/mplab/compilers "XC8 Compiler v2.32")
 - [MPLAB Code Configurator (MCC) v4.1.0](https://www.microchip.com/mplab/mplab-code-configurator "MPLAB Code Configurator (MCC) v4.1.0")
-- AVR-Dx DFP 1.7.98
+- 8-bit AVR MCUs Library v2.7.0
+- Code configurator Library v1.37.14
+- AVR-Dx DFP v1.7.98
 - [Standalone Data Visualizer v2.20.674](https://www.microchip.com/mplab/avr-support/data-visualizer "Standalone Data Visualizer v2.20.674")
 
 **Note:** *For running the demo, the installed tool versions should be same or later.*
