@@ -155,6 +155,7 @@ This command keeps the application code at 0x400 location in the Flash memory. I
 - Open Project Properties by right clicking **project name -> Properties**
 - Add a post-build command to the project under **Conf -> Building**, as shown below
 - Also check the **Execute this line after build** option as shown below
+
 **Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 <br><img src="images/post-build.png" width="500">
 
