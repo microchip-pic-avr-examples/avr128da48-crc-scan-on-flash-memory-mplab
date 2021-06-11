@@ -160,6 +160,8 @@ This command keeps the application code at 0x400 location in the Flash memory. I
 **Command:**
 `"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath} -FILL=0xFFFF@0x0000:0x1FFFD -CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021`
 
+Note : In this command, ensure on your PC the MPLAB IDE tool path specified is same or not"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate" which includes hexmate tool used to calculate CRC, if the path is different make the changes accordingly.
+
 This post build command takes the generated HEX file by linker, fill the remaining space of Flash with 0xFFFF (-FILL=0xFFFF@0x0000:0x1FFFD), calculate CRC, and keep the CRC checksum at the last 2 bytes of Flash. (-CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021).
 
 CRC16 example calculates a CRC (g5), using an initial value of 0xFFFF (+0xFFFF) and a polynomial value of 0x1021 (p0x1021) from the HEX file data at addresses 0 through to 0x1FFFD (0x0000-0x1FFFD), placing the big-endian, 2-byte-wide result (w2) at address 0x1FFFE (@0x1FFFE) in the final HEX file.
