@@ -84,7 +84,7 @@ This example firmware uses CRC16 by default. To use CRC32 make following changes
 3. Change post build command *(project name -> Properties -> Conf -> Building -> Execute this line after build)* to
   `"C:\Program Files (x86)\Microchip\MPLABX\v5.45\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
 
-**Note:** The system path for hexmate tool is dependent on the MPLAB version installed and the operating system used.
+**Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 
 ## Summary
 This example demonstrates how CRCSCAN peripheral can be used to perform integrity check on Flash memory. It also demonstrates use of MNVCTRL peripheral to perform read and write operations on Flash memory in runtime.
@@ -156,12 +156,12 @@ This command keeps the application code at 0x400 location in the Flash memory. I
 - Add a post-build command to the project under **Conf -> Building**, as shown below
 - Also check the **Execute this line after build** option as shown below
 
-**Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 <br><img src="images/post-build.png" width="500">
 
 **Command:**
 `"C:\Program Files (x86)\Microchip\MPLABX\v5.45\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath} -FILL=0xFFFF@0x0000:0x1FFFD -CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021`
 
+**Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 
 This post build command takes the generated HEX file by linker, fill the remaining space of Flash with 0xFFFF (-FILL=0xFFFF@0x0000:0x1FFFD), calculate CRC, and keep the CRC checksum at the last 2 bytes of Flash. (-CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021).
 
@@ -170,6 +170,8 @@ CRC16 example calculates a CRC (g5), using an initial value of 0xFFFF (+0xFFFF) 
 For other Hexmate options, see the Utilities Chapter in the MPLAB XC8 C Compiler User Guide.
 
 **For CRC32 use following command**
-`"C:\Program Files (x86)\Microchip\MPLABX\v5.40\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+`"C:\Program Files (x86)\Microchip\MPLABX\v5.45\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+
+**Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 
 **Note:** *For CRC32, XOR operation needs to be performed on the generated checksum. This option is not available with Hexmate. Thus, the final XOR operation is performed by the MCU.*
