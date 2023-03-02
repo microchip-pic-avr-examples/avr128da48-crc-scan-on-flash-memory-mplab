@@ -1,49 +1,100 @@
 /**
-  @Company
-    Microchip Technology Inc.
-
-  @Description
-    This Source file provides APIs.
-    Generation Information :
-    Driver Version    :   1.0.0
+ * USART1 Generated Driver API Header File
+ * 
+ * @file usart1.c
+ * 
+ * @ingroup usart1
+ * 
+ * @brief This is the generated driver implementation file for the USART1 driver using 
+ *
+ * @version USART1 Driver Version 2.0.3
 */
+
 /*
-Copyright (c) [2012-2020] Microchip Technology Inc.  
+© [2023] Microchip Technology Inc. and its subsidiaries.
 
-    All rights reserved.
-
-    You are permitted to use the accompanying software and its derivatives 
-    with Microchip products. See the Microchip license agreement accompanying 
-    this software, if any, for additional info regarding your rights and 
-    obligations.
-    
-    MICROCHIP SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT 
-    WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT 
-    LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT 
-    AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL MICROCHIP OR ITS
-    LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, STRICT 
-    LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE 
-    THEORY FOR ANY DIRECT OR INDIRECT DAMAGES OR EXPENSES INCLUDING BUT NOT 
-    LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES, 
-    OR OTHER SIMILAR COSTS. 
-    
-    To the fullest extend allowed by law, Microchip and its licensors 
-    liability will not exceed the amount of fees, if any, that you paid 
-    directly to Microchip to use this software. 
-    
-    THIRD PARTY SOFTWARE:  Notwithstanding anything to the contrary, any 
-    third party software accompanying this software is subject to the terms 
-    and conditions of the third party's license agreement.  To the extent 
-    required by third party licenses covering such third party software, 
-    the terms of such license will apply in lieu of the terms provided in 
-    this notice or applicable license.  To the extent the terms of such 
-    third party licenses prohibit any of the restrictions described here, 
-    such restrictions will not apply to such third party software.
+    Subject to your compliance with these terms, you may use Microchip 
+    software and any derivatives exclusively with Microchip products. 
+    You are responsible for complying with 3rd party license terms  
+    applicable to your use of 3rd party software (including open source  
+    software) that may accompany Microchip software. SOFTWARE IS ?AS IS.? 
+    NO WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS 
+    SOFTWARE, INCLUDING ANY IMPLIED WARRANTIES OF NON-INFRINGEMENT,  
+    MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT 
+    WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY 
+    KIND WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF 
+    MICROCHIP HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE 
+    FORESEEABLE. TO THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP?S 
+    TOTAL LIABILITY ON ALL CLAIMS RELATED TO THE SOFTWARE WILL NOT 
+    EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
+    THIS SOFTWARE.
 */
 
+/**
+  Section: Included Files
+*/
 
 #include "../usart1.h"
-#define RECEIVE_ERROR_MASK 0x46
+
+/**
+  Section: Macro Declarations
+*/
+
+
+
+/**
+  Section: Driver Interface
+ */
+
+const uart_drv_interface_t USART1_Serial = {
+    .Initialize = &USART1_Initialize,
+    .Deinitialize = &USART1_Deinitialize,
+    .Read = &USART1_Read,
+    .Write = &USART1_Write,
+    .IsRxReady = &USART1_IsRxReady,
+    .IsTxReady = &USART1_IsTxReady,
+    .IsTxDone = &USART1_IsTxDone,
+    .TransmitEnable = &USART1_TransmitEnable,
+    .TransmitDisable = &USART1_TransmitDisable,
+    .AutoBaudSet = &USART1_AutoBaudSet,
+    .AutoBaudQuery = &USART1_AutoBaudQuery,
+    .BRGCountSet = NULL,
+    .BRGCountGet = NULL,
+    .BaudRateSet = NULL,
+    .BaudRateGet = NULL,
+    .AutoBaudEventEnableGet = NULL,
+    .ErrorGet = &USART1_ErrorGet,
+    .TxCompleteCallbackRegister = NULL,
+    .RxCompleteCallbackRegister = NULL,
+    .TxCollisionCallbackRegister = NULL,
+    .FramingErrorCallbackRegister = &USART1_FramingErrorCallbackRegister,
+    .OverrunErrorCallbackRegister = &USART1_OverrunErrorCallbackRegister,
+    .ParityErrorCallbackRegister = &USART1_ParityErrorCallbackRegister,
+    .EventCallbackRegister = NULL,
+};
+
+/**
+  Section: USART1 variables
+*/
+static volatile usart1_status_t usart1RxLastError;
+
+/**
+  Section: USART1 APIs
+*/
+void (*USART1_FramingErrorHandler)(void);
+void (*USART1_OverrunErrorHandler)(void);
+void (*USART1_ParityErrorHandler)(void);
+
+static void USART1_DefaultFramingErrorCallback(void);
+static void USART1_DefaultOverrunErrorCallback(void);
+static void USART1_DefaultParityErrorCallback(void);
+
+
+
+/**
+  Section: USART1  APIs
+*/
 
 #if defined(__GNUC__)
 
@@ -58,39 +109,19 @@ FILE USART1_stream = FDEV_SETUP_STREAM(USART1_printCHAR, NULL, _FDEV_SETUP_WRITE
 
 #elif defined(__ICCAVR__)
 
-int putchar(int outChar)
+int putchar (int outChar)
 {
+    while(!(USART1_IsTxReady()));
     USART1_Write(outChar);
     return outChar;
 }
 #endif
 
-static void DefaultFramingErrorCallback(void);
-static void DefaultOverrunErrorCallback(void);
-static void DefaultParityErrorCallback(void);
-void (*USART1_framing_err_cb)(void) = &DefaultFramingErrorCallback;
-void (*USART1_overrun_err_cb)(void) = &DefaultOverrunErrorCallback;
-void (*USART1_parity_err_cb)(void) = &DefaultParityErrorCallback;
-
-const struct UART_INTERFACE USART1_Interface = {
-  .Initialize = USART1_Initialize,
-  .Write = USART1_Write,
-  .Read = USART1_Read,
-  .RxCompleteCallbackRegister = NULL,
-  .TxCompleteCallbackRegister = NULL,
-  .ErrorCallbackRegister = NULL,
-  .FramingErrorCallbackRegister = USART1_FramingErrorCallbackRegister,
-  .OverrunErrorCallbackRegister = USART1_OverrunErrorCallbackRegister,
-  .ParityErrorCallbackRegister = USART1_ParityErrorCallbackRegister,
-  .ChecksumErrorCallbackRegister = NULL,
-  .IsRxReady = USART1_IsRxReady,
-  .IsTxReady = USART1_IsTxReady,
-  .IsTxDone = USART1_IsTxDone
-};
-
 void USART1_Initialize(void)
 {
-    //set baud rate register
+    // Set the USART1 module to the options selected in the user interface.
+
+    //BAUD 277; 
     USART1.BAUD = (uint16_t)USART1_BAUD_RATE(9600);
 	
     // ABEIE disabled; DREIE disabled; LBME disabled; RS485 DISABLE; RXCIE disabled; RXSIE disabled; TXCIE disabled; 
@@ -102,127 +133,201 @@ void USART1_Initialize(void)
     // CMODE Asynchronous Mode; UCPHA enabled; UDORD disabled; CHSIZE Character size: 8 bit; PMODE No Parity; SBMODE 1 stop bit; 
     USART1.CTRLC = 0x3;
 	
-    //DBGCTRL_DBGRUN
+    //DBGRUN disabled; 
     USART1.DBGCTRL = 0x0;
 	
-    //EVCTRL_IREI
+    //IREI disabled; 
     USART1.EVCTRL = 0x0;
 	
-    //RXPLCTRL_RXPL
+    //RXPL 0x0; 
     USART1.RXPLCTRL = 0x0;
 	
-    //TXPLCTRL_TXPL
+    //TXPL 0x0; 
     USART1.TXPLCTRL = 0x0;
 	
-
+    USART1_FramingErrorCallbackRegister(USART1_DefaultFramingErrorCallback);
+    USART1_OverrunErrorCallbackRegister(USART1_DefaultOverrunErrorCallback);
+    USART1_ParityErrorCallbackRegister(USART1_DefaultParityErrorCallback);
+    usart1RxLastError.status = 0;  
 #if defined(__GNUC__)
     stdout = &USART1_stream;
 #endif
-
 }
 
-void USART1_FramingErrorCallbackRegister(void* callbackHandler)
+void USART1_Deinitialize(void)
 {
-    USART1_framing_err_cb=callbackHandler;
-}
-
-void USART1_OverrunErrorCallbackRegister(void* callbackHandler)
-{
-    USART1_overrun_err_cb=callbackHandler;
-}
-
-void USART1_ParityErrorCallbackRegister(void* callbackHandler)
-{
-    USART1_parity_err_cb=callbackHandler;
-}
-
-static void DefaultFramingErrorCallback(void)
-{
-    /* Add your interrupt code here or use USART1.FramingCallbackRegister function to use Custom ISR */
-}
-
-static void DefaultOverrunErrorCallback(void)
-{
-   /* Add your interrupt code here or use USART1.OverrunCallbackRegister function to use Custom ISR */
-}
-
-static void DefaultParityErrorCallback(void)
-{
-    /* Add your interrupt code here or use USART1.ParityCallbackRegister function to use Custom ISR */
+    USART1.BAUD = 0x00;	
+    USART1.CTRLA = 0x00;	
+    USART1.CTRLB = 0x00;	
+    USART1.CTRLC = 0x00;	
+    USART1.DBGCTRL = 0x00;	
+    USART1.EVCTRL = 0x00;	
+    USART1.RXPLCTRL = 0x00;	
+    USART1.TXPLCTRL = 0x00;	
 }
 
 void USART1_Enable(void)
 {
-    USART1.CTRLB |= USART_RXEN_bm | USART_TXEN_bm;
-}
-
-void USART1_EnableRx(void)
-{
-    USART1.CTRLB |= USART_RXEN_bm;
-}
-
-void USART1_EnableTx(void)
-{
-    USART1.CTRLB |= USART_TXEN_bm;
+    USART1.CTRLB |= USART_RXEN_bm | USART_TXEN_bm; 
 }
 
 void USART1_Disable(void)
 {
-    USART1.CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm);
+    USART1.CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm); 
 }
 
-uint8_t USART1_GetData(void)
+void USART1_TransmitEnable(void)
 {
-    return USART1.RXDATAL;
+    USART1.CTRLB |= USART_TXEN_bm; 
 }
 
-bool USART1_IsTxReady(void)
+void USART1_TransmitDisable(void)
 {
-    return (USART1.STATUS & USART_DREIF_bm);
+    USART1.CTRLB &= ~(USART_TXEN_bm); 
+}
+
+void USART1_ReceiveEnable(void)
+{
+    USART1.CTRLB |= USART_RXEN_bm ; 
+}
+
+void USART1_ReceiveDisable(void)
+{
+    USART1.CTRLB &= ~(USART_RXEN_bm); 
+}
+
+void USART1_AutoBaudSet(bool enable)
+{
+    if(enable)
+    {
+        USART1.CTRLB |= USART_RXMODE_gm & (0x02 << USART_RXMODE_gp); 
+        USART1.STATUS |= USART_WFB_bm ; 
+    }
+    else
+    {
+       USART1.CTRLB &= ~(USART_RXMODE_gm); 
+       USART1.STATUS &= ~(USART_BDF_bm);  
+    }
+}
+
+bool USART1_AutoBaudQuery(void)
+{
+     return (bool)(USART1.STATUS & USART_BDF_bm) ; 
+}
+
+bool USART1_IsAutoBaudDetectError(void)
+{
+     return (bool)(USART1.STATUS & USART_ISFIF_bm) ; 
+}
+
+void USART1_AutoBaudDetectErrorReset(void)
+{
+    USART1.STATUS |= USART_ISFIF_bm ;
+	USART1_AutoBaudSet(false);
+    USART1_ReceiveDisable();
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    USART1_ReceiveEnable();
+    USART1_AutoBaudSet(true);
 }
 
 bool USART1_IsRxReady(void)
 {
-    return (USART1.STATUS & USART_RXCIF_bm);
+    return (bool)(USART1.STATUS & USART_RXCIF_bm);
 }
 
-bool USART1_IsTxBusy(void)
+bool USART1_IsTxReady(void)
 {
-    return (!(USART1.STATUS & USART_TXCIF_bm));
+    return (bool)(USART1.STATUS & USART_DREIF_bm);
 }
 
 bool USART1_IsTxDone(void)
 {
-    return (USART1.STATUS & USART_TXCIF_bm);
+    return (bool)(USART1.STATUS & USART_TXCIF_bm);
 }
 
-void USART1_ErrorCheck(void)
+size_t USART1_ErrorGet(void)
 {
-    uint8_t errorMask = USART1.RXDATAH;
-    if(errorMask & RECEIVE_ERROR_MASK)
-    {
-        if(errorMask & USART_PERR_bm)
-        {
-            USART1_parity_err_cb();
-        } 
-        if(errorMask & USART_FERR_bm)
-        {
-            USART1_framing_err_cb();
-        }
-        if(errorMask & USART_BUFOVF_bm)
-        {
-            USART1_overrun_err_cb();
-        }
-    }
+    usart1RxLastError.status = 0;
     
+    if(USART1.RXDATAH & USART_FERR_bm)
+    {
+        usart1RxLastError.ferr = 1;
+        if(NULL != USART1_FramingErrorHandler)
+        {
+            USART1_FramingErrorHandler();
+        }  
+    }
+    if(USART1.RXDATAH & USART_PERR_bm)
+    {
+        usart1RxLastError.perr = 1;
+        if(NULL != USART1_ParityErrorHandler)
+        {
+            USART1_ParityErrorHandler();
+        }  
+    }
+    if(USART1.RXDATAH & USART_BUFOVF_bm)
+    {
+        usart1RxLastError.oerr = 1;
+        if(NULL != USART1_OverrunErrorHandler)
+        {
+            USART1_OverrunErrorHandler();
+        }   
+    }
+    return usart1RxLastError.status;
 }
 
 uint8_t USART1_Read(void)
-{       
+{
     return USART1.RXDATAL;
 }
 
-void USART1_Write(const uint8_t data)
+
+void USART1_Write(uint8_t txData)
 {
-    USART1.TXDATAL = data;
+    USART1.TXDATAL = txData;    // Write the data byte to the USART.
 }
+static void USART1_DefaultFramingErrorCallback(void)
+{
+    
+}
+
+static void USART1_DefaultOverrunErrorCallback(void)
+{
+    
+}
+
+static void USART1_DefaultParityErrorCallback(void)
+{
+    
+}
+
+void USART1_FramingErrorCallbackRegister(void (* callbackHandler)(void))
+{
+    if(NULL != callbackHandler)
+    {
+        USART1_FramingErrorHandler = callbackHandler;
+    }
+}
+
+void USART1_OverrunErrorCallbackRegister(void (* callbackHandler)(void))
+{
+    if(NULL != callbackHandler)
+    {
+        USART1_OverrunErrorHandler = callbackHandler;
+    }    
+}
+
+void USART1_ParityErrorCallbackRegister(void (* callbackHandler)(void))
+{
+    if(NULL != callbackHandler)
+    {
+        USART1_ParityErrorHandler = callbackHandler;
+    } 
+}
+
+
+
+

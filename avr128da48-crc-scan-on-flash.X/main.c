@@ -1,33 +1,42 @@
-/*
-    (c) 2018 Microchip Technology Inc. and its subsidiaries. 
-    
-    Subject to your compliance with these terms, you may use Microchip software and any 
-    derivatives exclusively with Microchip products. It is your responsibility to comply with third party 
-    license terms applicable to your use of third party software (including open source software) that 
-    may accompany Microchip software.
-    
-    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER 
-    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY 
-    IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS 
-    FOR A PARTICULAR PURPOSE.
-    
-    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
-    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
-    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP 
-    HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO 
-    THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL 
-    CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
-    OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
-    SOFTWARE.
+ /*
+ * MAIN Generated Driver File
+ * 
+ * @file main.c
+ * 
+ * @defgroup main MAIN
+ * 
+ * @brief This is the generated driver implementation file for the MAIN driver.
+ *
+ * @version MAIN Driver Version 1.0.0
 */
 
+/*
+© [2023] Microchip Technology Inc. and its subsidiaries.
+
+    Subject to your compliance with these terms, you may use Microchip 
+    software and any derivatives exclusively with Microchip products. 
+    You are responsible for complying with 3rd party license terms  
+    applicable to your use of 3rd party software (including open source  
+    software) that may accompany Microchip software. SOFTWARE IS ?AS IS.? 
+    NO WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS 
+    SOFTWARE, INCLUDING ANY IMPLIED WARRANTIES OF NON-INFRINGEMENT,  
+    MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT 
+    WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY 
+    KIND WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF 
+    MICROCHIP HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE 
+    FORESEEABLE. TO THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP?S 
+    TOTAL LIABILITY ON ALL CLAIMS RELATED TO THE SOFTWARE WILL NOT 
+    EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
+    THIS SOFTWARE.
+*/
 #include "mcc_generated_files/system/system.h"
 
 /**
-    Uncomment line 35 (#define CRC32) to use CRC32 firmware.
+    Uncomment line 44 (#define CRC32) to use CRC32 firmware.
  
     Other changes required for CRC32:
-    1)  Change SYSCFG0 fuse (MCC Generated Files/device_config.c/->line 46) to
+    1)  Change SYSCFG0 fuse (MCC Generated Files/device_config.c/->line 44) to
             .SYSCFG0 = CRCSEL_CRC32_gc | CRCSRC_NOCRC_gc | RSTPINCFG_GPIO_gc,
     2) Change post build command as mentioned here:
  https://github.com/microchip-pic-avr-examples/avr128da48-crc-scan-on-flash-memory-mplab
@@ -50,24 +59,26 @@ void StartCrcScan(void);
 void ApplicationTask(void);
 void PITInterrupt(void);
 void SwitchPressInterrupt(void);
+void FLASH_WriteFlashBlock(flash_address_t flash_adr, uint8_t *data, size_t size);
 extern void (*RTC_PIT_isr_cb)(void);
 
 
 volatile uint8_t pitInterruptFlag = 1; //setting default value as 1 to perform crc at the start
 volatile uint8_t switchPressFlag = 0;
-const flash_adr_t appDataAddress = 0x1FC01; //Address at which data will be toggled
-flash_adr_t crcStoredAddress = 0x1FFFF; //Initializing  with last address of flash 
+const flash_address_t appDataAddress = 0x1FC01; //Address at which data will be toggled
+flash_address_t crcStoredAddress = 0x1FFFF; //Initializing  with last address of flash 
 uint32_t preCalculatedCRC = 0; //variable to store crc 
 uint8_t byteToBeWritten = 0xFF; //data to be written in the flash in runtime  
 uint8_t flashPageBuffer[PAGE_SIZE] = {0}; //A buffer in memory the size of a flash page, used as a scratchpad
 
-/**
+/*
     Main application
- **/
-int main(void) {
-    /* Initializes MCU, drivers and middleware */
-    SYSTEM_Initialize();
+*/
 
+int main(void)
+{
+    SYSTEM_Initialize();
+    
     printf("\rSystem Initialized\n");
 
     /* Set interrupt handler for PIT interrupt */
@@ -76,12 +87,12 @@ int main(void) {
     PC7_SetInterruptHandler(SwitchPressInterrupt);
 
     /* Read "Pre-calculated crc" from flash */
-    preCalculatedCRC = (uint32_t) FLASH_ReadFlashByte(crcStoredAddress);
-    preCalculatedCRC |= (uint32_t) FLASH_ReadFlashByte(--crcStoredAddress) << 8;
+    preCalculatedCRC = (uint32_t) FLASH_Read(crcStoredAddress);
+    preCalculatedCRC |= (uint32_t) FLASH_Read(--crcStoredAddress) << 8;
  
 #ifdef CRC32    
-    preCalculatedCRC |= (uint32_t)FLASH_ReadFlashByte(--crcStoredAddress) << 16;
-    preCalculatedCRC |= (uint32_t)FLASH_ReadFlashByte(--crcStoredAddress) << 24;
+    preCalculatedCRC |= (uint32_t)FLASH_Read(--crcStoredAddress) << 16;
+    preCalculatedCRC |= (uint32_t)FLASH_Read(--crcStoredAddress) << 24;
 #endif
     
     printf("\n\rPre-calculated CRC read from Flash is complete\n");
@@ -92,11 +103,11 @@ int main(void) {
     PerformCrcFinalXOR();
 #endif
 
-    /* application code */ 
-    while (1) {
-        ApplicationTask();
-    }
 
+    while(1)
+    {
+        ApplicationTask();
+    }    
 }
 
 /**
@@ -126,7 +137,7 @@ void PerformCrcFinalXOR(void) {
     printf("\n\rUpdated CRC: 0x%08lX\n", preCalculatedCRC);
 
     /* Update CRC in the same address */
-    FLASH_WriteFlashBlock(crcStoredAddress, crcTempArray, CRC_LENGTH, flashPageBuffer);
+    FLASH_WriteFlashBlock(crcStoredAddress, crcTempArray, CRC_LENGTH);
 
     printf("\n\rStored Updated CRC in Flash\n");
 
@@ -141,21 +152,25 @@ void PerformCrcFinalXOR(void) {
   This function checks whether the crc scan result and displays the status.
   It also toggles a byte data in APPDATA section upon switch press
  **/
-void ApplicationTask(void) {
-    if (pitInterruptFlag == 1) {
+void ApplicationTask(void) 
+{
+    if (pitInterruptFlag == 1) 
+    {
         /* Clear flag */
         pitInterruptFlag = 0;
 
         StartCrcScan();
 
         /* CRC Calculation is successful */
-        if (CRCSCAN_STATUS & CRCSCAN_OK_bm) {
+        if (CRCSCAN_STATUS & CRCSCAN_OK_bm) 
+        {
             /* Turn off LED */
             LED_OFF();
             printf("\rCRC matched with Pre-calculated CRC " FORMAT "\n", preCalculatedCRC);
 
         }
-        else {
+        else 
+        {
             /* Turn on LED */
             LED_ON();
             printf("\rCRC did not match with Pre-calculated CRC " FORMAT "\n", preCalculatedCRC);
@@ -163,8 +178,8 @@ void ApplicationTask(void) {
         }
     }
 
-
-    if (switchPressFlag == 1) {
+    if (switchPressFlag == 1) 
+    {
         /* Clear flag */
         switchPressFlag = 0;
 
@@ -172,11 +187,10 @@ void ApplicationTask(void) {
         byteToBeWritten = ~(byteToBeWritten);
 
         /* Write byteToBeWritten at appDataAddress */
-        FLASH_WriteFlashByte(appDataAddress, flashPageBuffer, byteToBeWritten);
+        FLASH_WriteFlashBlock(appDataAddress, &byteToBeWritten,1);
 
         printf("\n\r0x%02X is written at 0x%lX in APPDATA section of Flash\n",
                 byteToBeWritten, appDataAddress);
-
     }
 }
 
@@ -188,7 +202,8 @@ void ApplicationTask(void) {
   @Description
   This function enables crc scan and waits until crc scan is complete.
  **/
-void StartCrcScan(void) {
+void StartCrcScan(void) 
+{
     printf("\n\rStarted CRC Scan..\n");
     /* Start CRCSCAN */
     CRCSCAN_CTRLA = (1 << CRCSCAN_ENABLE_bp);
@@ -205,7 +220,8 @@ void StartCrcScan(void) {
   @Description
   PIT Interrupt handler. Interrupt in every 8 sec
  **/
-void PITInterrupt(void) {
+void PITInterrupt(void) 
+{
     pitInterruptFlag = 1;
 }
 
@@ -217,10 +233,51 @@ void PITInterrupt(void) {
   @Description
   IOC handler for pin PC7. Interrupt upon switch press
  **/
-void SwitchPressInterrupt(void) {
+void SwitchPressInterrupt(void) 
+{
     switchPressFlag = 1;
 }
 
+/**
+  @Param
+   flash_address The byte-address of the flash to write to
+   data The data to write to the flash
+   size The size of the data (in bytes) to write to the flash
+  @Returns
+   none
+  @Description
+   Update the specific locations in a given Flash page without disturbing the other locations
+ **/
+void FLASH_WriteFlashBlock(flash_address_t flash_address, uint8_t *data, size_t size)
+{
+    flash_address_t flashStartPageAddress;
+    uint16_t flashAddressOffset;
+    flash_data_t flashWriteData[PROGMEM_PAGE_SIZE];
+
+    //Get the starting address of the page containing the given address
+    flashStartPageAddress = FLASH_PageAddressGet(flash_address);
+
+    //Read entire row
+    for (flashAddressOffset = 0; flashAddressOffset < PROGMEM_PAGE_SIZE; flashAddressOffset++)
+    {
+        flashWriteData[flashAddressOffset] = FLASH_Read(flashStartPageAddress + flashAddressOffset);
+    }
+
+    //Get offset from the starting address of the page
+    flashAddressOffset = FLASH_PageOffsetGet(flash_address);
+
+    //Update data of required size
+    for (uint8_t i=0; i<size; i++)
+    {
+        flashWriteData[flashAddressOffset + i] = *(data+ i);
+    }
+
+    //Erase the entire Flash page
+    FLASH_PageErase(flashStartPageAddress);
+ 
+    //Write data to the Flash row
+    FLASH_RowWrite(flashStartPageAddress, flashWriteData);  
+}
 /**
     End of File
  */

@@ -1,51 +1,46 @@
 /**
-  Generated Pin Manager File
-
-  Company:
-    Microchip Technology Inc.
-
-  File Name:
-    pins.c
-  
-  This Source file provides APIs.
-    Generation Information :
-    Driver Version    :   1.0.0
+ * Generated Driver File
+ * 
+ * @file pins.c
+ * 
+ * @ingroup  pinsdriver
+ * 
+ * @brief This is generated driver implementation for pins. 
+ *        This file provides implementations for pin APIs for all pins selected in the GUI.
+ *
+ * @version Driver Version 1.1.0
 */
 
 /*
-    (c) 2018 Microchip Technology Inc. and its subsidiaries. 
-    
-    Subject to your compliance with these terms, you may use Microchip software and any 
-    derivatives exclusively with Microchip products. It is your responsibility to comply with third party 
-    license terms applicable to your use of third party software (including open source software) that 
-    may accompany Microchip software.
-    
-    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER 
-    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY 
-    IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS 
-    FOR A PARTICULAR PURPOSE.
-    
-    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
-    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
-    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP 
-    HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO 
-    THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL 
-    CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
-    OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
-    SOFTWARE.
+© [2023] Microchip Technology Inc. and its subsidiaries.
+
+    Subject to your compliance with these terms, you may use Microchip 
+    software and any derivatives exclusively with Microchip products. 
+    You are responsible for complying with 3rd party license terms  
+    applicable to your use of 3rd party software (including open source  
+    software) that may accompany Microchip software. SOFTWARE IS ?AS IS.? 
+    NO WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS 
+    SOFTWARE, INCLUDING ANY IMPLIED WARRANTIES OF NON-INFRINGEMENT,  
+    MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT 
+    WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY 
+    KIND WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF 
+    MICROCHIP HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE 
+    FORESEEABLE. TO THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP?S 
+    TOTAL LIABILITY ON ALL CLAIMS RELATED TO THE SOFTWARE WILL NOT 
+    EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
+    THIS SOFTWARE.
 */
 
 #include "../pins.h"
 
-static void (*PC1_InterruptHandler)(void);
-static void (*PC0_InterruptHandler)(void);
-static void (*PC7_InterruptHandler)(void);
-static void (*PC6_InterruptHandler)(void);
-void PORT_Initialize(void);
+static void (*IO_PC1_InterruptHandler)(void);
+static void (*IO_PC0_InterruptHandler)(void);
+static void (*SW0_InterruptHandler)(void);
+static void (*LED0_InterruptHandler)(void);
 
 void PIN_MANAGER_Initialize()
 {
-  PORT_Initialize();
   /* DIR Registers Initialization */
     PORTA.DIR = 0x0;
     PORTB.DIR = 0x0;
@@ -112,38 +107,12 @@ void PIN_MANAGER_Initialize()
     PORTF.PIN6CTRL = 0x0;
     PORTF.PIN7CTRL = 0x0;
 
-  /* Multi-pin Config registers Initialization */
-    PORTA.PINCONFIG = 0x00;
-    PORTA.PINCTRLCLR = 0x00;
-    PORTA.PINCTRLSET = 0x00;
-    PORTA.PINCTRLUPD = 0x00;
-    PORTB.PINCONFIG = 0x00;
-    PORTB.PINCTRLCLR = 0x00;
-    PORTB.PINCTRLSET = 0x00;
-    PORTB.PINCTRLUPD = 0x00;
-    PORTC.PINCONFIG = 0x00;
-    PORTC.PINCTRLCLR = 0x00;
-    PORTC.PINCTRLSET = 0x00;
-    PORTC.PINCTRLUPD = 0x00;
-    PORTD.PINCONFIG = 0x00;
-    PORTD.PINCTRLCLR = 0x00;
-    PORTD.PINCTRLSET = 0x00;
-    PORTD.PINCTRLUPD = 0x00;
-    PORTE.PINCONFIG = 0x00;
-    PORTE.PINCTRLCLR = 0x00;
-    PORTE.PINCTRLSET = 0x00;
-    PORTE.PINCTRLUPD = 0x00;
-    PORTF.PINCONFIG = 0x00;
-    PORTF.PINCTRLCLR = 0x00;
-    PORTF.PINCTRLSET = 0x00;
-    PORTF.PINCTRLUPD = 0x00;
-
   /* PORTMUX Initialization */
     PORTMUX.ACROUTEA = 0x0;
     PORTMUX.CCLROUTEA = 0x0;
     PORTMUX.EVSYSROUTEA = 0x0;
     PORTMUX.SPIROUTEA = 0x0;
-    PORTMUX.TCAROUTEA = 0x2;
+    PORTMUX.TCAROUTEA = 0x0;
     PORTMUX.TCBROUTEA = 0x0;
     PORTMUX.TCDROUTEA = 0x0;
     PORTMUX.TWIROUTEA = 0x0;
@@ -152,156 +121,113 @@ void PIN_MANAGER_Initialize()
     PORTMUX.ZCDROUTEA = 0x0;
 
   // register default ISC callback functions at runtime; use these methods to register a custom function
-    PC1_SetInterruptHandler(PC1_DefaultInterruptHandler);
-    PC0_SetInterruptHandler(PC0_DefaultInterruptHandler);
-    PC7_SetInterruptHandler(PC7_DefaultInterruptHandler);
-    PC6_SetInterruptHandler(PC6_DefaultInterruptHandler);
+    IO_PC1_SetInterruptHandler(IO_PC1_DefaultInterruptHandler);
+    IO_PC0_SetInterruptHandler(IO_PC0_DefaultInterruptHandler);
+    SW0_SetInterruptHandler(SW0_DefaultInterruptHandler);
+    LED0_SetInterruptHandler(LED0_DefaultInterruptHandler);
 }
 
-void PORT_Initialize(void)
+/**
+  Allows selecting an interrupt handler for IO_PC1 at application runtime
+*/
+void IO_PC1_SetInterruptHandler(void (* interruptHandler)(void)) 
 {
-  /* On AVR devices all peripherals are enable from power on reset, this
-  * disables all peripherals to save power. Driver shall enable
-  * peripheral if used */
+    IO_PC1_InterruptHandler = interruptHandler;
+}
 
-  /* Set all pins to low power mode */
-    for (uint8_t i = 0; i < 8; i++) {
-      *((uint8_t *)&PORTA + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-      *((uint8_t *)&PORTB + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-      *((uint8_t *)&PORTC + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-      *((uint8_t *)&PORTD + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-      *((uint8_t *)&PORTE + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-      *((uint8_t *)&PORTF + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-    }
-    
+void IO_PC1_DefaultInterruptHandler(void)
+{
+    // add your IO_PC1 interrupt custom code
+    // or set custom function using IO_PC1_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for PC1 at application runtime
+  Allows selecting an interrupt handler for IO_PC0 at application runtime
 */
-void PC1_SetInterruptHandler(void (* interruptHandler)(void)) 
+void IO_PC0_SetInterruptHandler(void (* interruptHandler)(void)) 
 {
-    PC1_InterruptHandler = interruptHandler;
+    IO_PC0_InterruptHandler = interruptHandler;
 }
 
-void PC1_DefaultInterruptHandler(void)
+void IO_PC0_DefaultInterruptHandler(void)
 {
-    // add your PC1 interrupt custom code
-    // or set custom function using PC1_SetInterruptHandler()
+    // add your IO_PC0 interrupt custom code
+    // or set custom function using IO_PC0_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for PC0 at application runtime
+  Allows selecting an interrupt handler for SW0 at application runtime
 */
-void PC0_SetInterruptHandler(void (* interruptHandler)(void)) 
+void SW0_SetInterruptHandler(void (* interruptHandler)(void)) 
 {
-    PC0_InterruptHandler = interruptHandler;
+    SW0_InterruptHandler = interruptHandler;
 }
 
-void PC0_DefaultInterruptHandler(void)
+void SW0_DefaultInterruptHandler(void)
 {
-    // add your PC0 interrupt custom code
-    // or set custom function using PC0_SetInterruptHandler()
+    // add your SW0 interrupt custom code
+    // or set custom function using SW0_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for PC7 at application runtime
+  Allows selecting an interrupt handler for LED0 at application runtime
 */
-void PC7_SetInterruptHandler(void (* interruptHandler)(void)) 
+void LED0_SetInterruptHandler(void (* interruptHandler)(void)) 
 {
-    PC7_InterruptHandler = interruptHandler;
+    LED0_InterruptHandler = interruptHandler;
 }
 
-void PC7_DefaultInterruptHandler(void)
+void LED0_DefaultInterruptHandler(void)
 {
-    // add your PC7 interrupt custom code
-    // or set custom function using PC7_SetInterruptHandler()
-}
-/**
-  Allows selecting an interrupt handler for PC6 at application runtime
-*/
-void PC6_SetInterruptHandler(void (* interruptHandler)(void)) 
-{
-    PC6_InterruptHandler = interruptHandler;
-}
-
-void PC6_DefaultInterruptHandler(void)
-{
-    // add your PC6 interrupt custom code
-    // or set custom function using PC6_SetInterruptHandler()
+    // add your LED0 interrupt custom code
+    // or set custom function using LED0_SetInterruptHandler()
 }
 ISR(PORTA_PORT_vect)
-{  
-    // Call the interrupt handler for the callback registered at runtime
-
+{ 
     /* Clear interrupt flags */
     VPORTA.INTFLAGS = 0xff;
 }
 
 ISR(PORTB_PORT_vect)
-{  
-    // Call the interrupt handler for the callback registered at runtime
-
+{ 
     /* Clear interrupt flags */
     VPORTB.INTFLAGS = 0xff;
 }
 
 ISR(PORTC_PORT_vect)
-{  
+{ 
     // Call the interrupt handler for the callback registered at runtime
     if(VPORTC.INTFLAGS & PORT_INT1_bm)
     {
-       PC1_InterruptHandler();
+       IO_PC1_InterruptHandler(); 
     }
     if(VPORTC.INTFLAGS & PORT_INT0_bm)
     {
-       PC0_InterruptHandler();
+       IO_PC0_InterruptHandler(); 
     }
     if(VPORTC.INTFLAGS & PORT_INT7_bm)
     {
-       PC7_InterruptHandler();
+       SW0_InterruptHandler(); 
     }
     if(VPORTC.INTFLAGS & PORT_INT6_bm)
     {
-       PC6_InterruptHandler();
+       LED0_InterruptHandler(); 
     }
-
     /* Clear interrupt flags */
     VPORTC.INTFLAGS = 0xff;
 }
 
 ISR(PORTD_PORT_vect)
-{  
-    // Call the interrupt handler for the callback registered at runtime
-
+{ 
     /* Clear interrupt flags */
     VPORTD.INTFLAGS = 0xff;
 }
 
 ISR(PORTE_PORT_vect)
-{  
-    // Call the interrupt handler for the callback registered at runtime
-
+{ 
     /* Clear interrupt flags */
     VPORTE.INTFLAGS = 0xff;
 }
 
 ISR(PORTF_PORT_vect)
-{  
-    // Call the interrupt handler for the callback registered at runtime
-
+{ 
     /* Clear interrupt flags */
     VPORTF.INTFLAGS = 0xff;
 }

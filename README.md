@@ -30,12 +30,10 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 </p>
 
 ## Software Used
-- [MPLAB X IDE v5.45](https://www.microchip.com/mplab/mplab-x-ide "MPLAB X IDE v5.45")
-- [XC8 Compiler v2.32](https://www.microchip.com/mplab/compilers "XC8 Compiler v2.32")
-- [MPLAB Code Configurator (MCC) v4.1.0](https://www.microchip.com/mplab/mplab-code-configurator "MPLAB Code Configurator (MCC) v4.1.0")
-- 8-bit AVR MCUs Library v2.7.0
-- Code configurator Library v1.37.14
-- AVR-Dx DFP v1.7.98
+- MPLAB® X IDE [v6.05 or newer](http://www.microchip.com/mplab/mplab-x-ide)
+- MPLAB® XC8 Compiler [v2.41 or newer](http://www.microchip.com/mplab/compilers)
+- MPLAB® Code Configurator (MCC) [v5.2.2 or newer](https://www.microchip.com/mplab/mplab-code-configurator)
+- Microchip AVR-Dx Device Support [2.3.272 or newer](https://packs.download.microchip.com/)
 - [Standalone Data Visualizer v2.20.674](https://www.microchip.com/mplab/avr-support/data-visualizer "Standalone Data Visualizer v2.20.674")
 
 **Note:** *For running the demo, the installed tool versions should be same or later.*
@@ -82,7 +80,7 @@ This example firmware uses CRC16 by default. To use CRC32 make following changes
 2. Change **SYSCFG0 fuse** *(MCC Generated Files/device_config.c/->line 46)* to
   `.SYSCFG0 = CRCSEL_CRC32_gc | CRCSRC_NOCRC_gc | RSTPINCFG_GPIO_gc,`
 3. Change post build command *(project name -> Properties -> Conf -> Building -> Execute this line after build)* to
-  `"C:\Program Files (x86)\Microchip\MPLABX\v5.45\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+  `"C:\Program Files\Microchip\MPLABX\v6.05\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
 
 **Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 
@@ -159,7 +157,7 @@ This command keeps the application code at 0x400 location in the Flash memory. I
 <br><img src="images/post-build.png" width="500">
 
 **Command:**
-`"C:\Program Files (x86)\Microchip\MPLABX\v5.45\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath} -FILL=0xFFFF@0x0000:0x1FFFD -CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021`
+`"C:\Program Files\Microchip\MPLABX\v6.05\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath} -FILL=0xFFFF@0x0000:0x1FFFD -CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021`
 
 **Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 
@@ -170,7 +168,7 @@ CRC16 example calculates a CRC (g5), using an initial value of 0xFFFF (+0xFFFF) 
 For other Hexmate options, see the Utilities Chapter in the MPLAB XC8 C Compiler User Guide.
 
 **For CRC32 use following command**
-`"C:\Program Files (x86)\Microchip\MPLABX\v5.45\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
+`"C:\Program Files\Microchip\MPLABX\v6.05\mplab_platform\bin\hexmate"  ${ImagePath} -o${ImagePath}  -FILL=0xFFFF@0x0000:0x1FFFB -CK=0x0000-0x1FFFB@0x1FFFC+0xFFFFFFFFw-4g-5p0x04C11DB7`
 
 **Note:** *Change the system path of hexmate tool as per MPLAB X IDE installation directory on the PC.*
 

@@ -4,27 +4,27 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.avr128da48-crc-scan-on-flash-memory-mplab",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "displayName": "CRC Scan on Flash memory - MPLAB X project",
         "projectName": "avr128da48-crc-scan-on-flash-memory-mplab",
         "shortDescription": "This  example demonstrates the use of peripheral NVMCTRL and CRCSCAN, to perform read and write operations in run time and CRC scan operation on Flash memory. This example can work with all the  variants of AVR DA family microcontrollers.",
         "ide": {
             "name": "MPLAB X",
-            "semverRange": ">=5.45.0"
+            "semverRange": ">=6.05.0"
         },
         "compiler": [
 			{
 				"name": "XC8",
-				"semverRange": "^2.32.0"
+				"semverRange": "^2.41.0"
 			}
 		],
         "dfp": {
             "name": "AVR-Dx_DFP",
-            "semverRange": "^1.8.112"
+            "semverRange": "^2.3.272"
         },
         "configurator": {
             "name": "MCC",
-            "semverRange": "^4.1.0"
+            "semverRange": ">=5.2.2"
         },
         "device": {
             "metaDataVersion": "1.0.0",
@@ -36,7 +36,7 @@
                 "versionRange": "*"
             }
         },
-        "author": "Microchip",
+        "author": "Irene Abraham",
         "subcategories": [
             "MCC",
             [
@@ -44,22 +44,14 @@
             ],
             [
                "Peripherals", "NVM"
-            ],
-			[
-               "Peripherals", "RTC"
-            ],
-			[
-               "Peripherals", "USART"
-            ]          			
+            ]         			
         ],
         "peripherals": [
-            "CRC","NVM","RTC","USART"
+            "CRC","NVM"
         ],
         "keywords": [
-			"Curiosity Nano",
-			"Flash Memory",
+			"Flash",
 			"Memory Scan",
-			"Data Visualizer",
 			"Melody"
         ],
 		"additionalData": {
