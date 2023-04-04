@@ -1,13 +1,13 @@
 /**
-  * RTC Generated Driver API Source File.
+  * RTC Generated Driver File
   *
   * @file rtc.c
   *
   * @ingroup rtc
   *
-  * @brief This file contains the API implementations for the RTC driver.
+  * @brief This file contains the driver code for RTC module.
   *
-  * version RTC Driver Version 2.1.0
+  * version RTC Driver Version 2.0.2
 */
 /*
 © [2023] Microchip Technology Inc. and its subsidiaries.
@@ -52,7 +52,6 @@ int8_t RTC_Initialize(void)
 
     //Clock selection
     RTC.CLKSEL = 0x1;
-
 
     // CMP disabled; OVF enabled; 
     RTC.INTCTRL = 0x1;
@@ -183,14 +182,4 @@ inline void RTC_ClearOVFInterruptFlag(void)
 inline bool RTC_IsOVFInterruptEnabled(void)
 {
     return ((RTC.INTCTRL & RTC_OVF_bm) > 0);
-}
-
-inline void RTC_WriteCMPRegister(uint16_t value)
-{
-    RTC.CMP = value;
-}
-
-inline uint16_t RTC_ReadCMPRegister(void)
-{
-    return RTC.CMP;
 }
