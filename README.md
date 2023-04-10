@@ -36,14 +36,14 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 - Microchip AVR-Dx Device Support [2.3.272 or newer](https://packs.download.microchip.com/)
 - [Standalone Data Visualizer v2.20.674](https://www.microchip.com/mplab/avr-support/data-visualizer "Standalone Data Visualizer v2.20.674")
 
-**Note:** *For running the demo, the installed tool versions should be same or later.*
+**Note:** *For running the demo, the installed tool versions must be same or later.*
 
 ## Hardware used
 [AVR128DA48 Curiosity Nano Evaluation Kit](https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164151 "AVR128DA48 Curiosity Nano Evaluation Kit")
 <br><img src="images/curiosity-nano.png" width="500">
 
-## Setup
-Connect AVR128DA48 Curiosity Nano Board to Host Computer (PC) using standard Micro B USB cable.
+## Set up
+Connect the AVR128DA48 Curiosity Nano board to the Host Computer (PC) using the standard Micro B USB cable.
 
 ## Operation
 1. Open Standalone Data Visualizer. Select Virtual COM Port to which AVR DA nano board is connected. Click **Connect**.
@@ -66,10 +66,10 @@ Connect AVR128DA48 Curiosity Nano Board to Host Computer (PC) using standard Mic
 8. Subsequent CRC scan will result in a failure and LED0 on Curiosity nano board turns ON.
 <br><img src="images/dv4.png" width="500">
 
-9. Press switch again to change data back to 0xFF.
+9. Press switch again to change the data back to 0xFF.
 <br><img src="images/dv5.png" width="500">
 
-10. Subsequent scan will result in CRC success. LED turns OFF.
+10. Subsequent scan will result in CRC success. The LED turns OFF.
 <br><img src="images/dv6.png" width="500">
 
 **IMPORTANT NOTE:** *Clean the project and then program the device by clicking* **Make and Program Device** ![](images/program-device-icon.png)
@@ -85,8 +85,8 @@ This example firmware uses CRC16 by default. To use CRC32 make following changes
 **Note:** *Add the path of hexmate tool in system environment variable as per MPLAB X IDE installation directory on the PC.*
 
 ## Summary
-This example demonstrates how CRCSCAN peripheral can be used to perform integrity check on Flash memory. It also demonstrates use of MNVCTRL peripheral to perform read and write operations on Flash memory in runtime.
-The Below sections give brief explanation of Flash memory structure and CRC peripheral of AVR DA family for better understanding of the demo. Firmware generation section explains firmware generation using MCC and MPLAB X Linker options and Hexmate tools options used for this demo.
+This example demonstrates how CRCSCAN peripheral can be used to perform an integrity check on Flash memory. It also shows how the NVMCTRL peripheral performs the read and write operations on Flash memory in runtime.
+The sections below give a brief explanation on the Flash memory structure, and the CRC peripheral of the AVR DA family, for a better understanding of the demo. Firmware generation section explains firmware generation using MCC and MPLAB X Linker options and Hexmate tools options used for this demo.
 
 ## Appendix:
 ## Flash Memory in AVR DA
@@ -150,9 +150,9 @@ The pre-calculated checksum must be present in the last location of the section 
 This command keeps the application code at 0x400 location in the Flash memory. It is the start of APPCODE section of Flash as discussed in the previous section. For details of other linker commands refer MPLAB XC8 C Compiler User Guide for AVR MCU.
 
 #### 2. Add Post Build Command
-- Open Project Properties by right clicking **project name -> Properties**
-- Add a post-build command to the project under **Conf -> Building**, as shown below
-- Also check the **Execute this line after build** option as shown below
+- Open Project Properties by right clicking **Project name**, then **Properties**
+- Add a post-build command to the project under **Conf** by clicking on **Building**
+- Also check the **Execute this line after build** option, as shown below
 
 <br><img src="images/post-build.png" width="500">
 
@@ -161,7 +161,7 @@ This command keeps the application code at 0x400 location in the Flash memory. I
 
 **Note:** *Add the path of hexmate tool in system environment variable as per MPLAB X IDE installation directory on the PC.*
 
-This post build command takes the generated HEX file by linker, fill the remaining space of Flash with 0xFFFF (-FILL=0xFFFF@0x0000:0x1FFFD), calculate CRC, and keep the CRC checksum at the last 2 bytes of Flash. (-CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021).
+This post build command takes the generated HEX file by linker, fills the remaining space of Flash with 0xFFFF (-FILL=0xFFFF@0x0000:0x1FFFD), calculates the CRC, and keeps the CRC checksum at the last 2 bytes of Flash. (-CK=0x0000-0x1FFFD@0x1FFFE+0xFFFFw2g5p0x1021).
 
 CRC16 example calculates a CRC (g5), using an initial value of 0xFFFF (+0xFFFF) and a polynomial value of 0x1021 (p0x1021) from the HEX file data at addresses 0 through to 0x1FFFD (0x0000-0x1FFFD), placing the big-endian, 2-byte-wide result (w2) at address 0x1FFFE (@0x1FFFE) in the final HEX file.
 
