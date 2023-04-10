@@ -86,6 +86,7 @@ This example firmware uses CRC16 by default. To use CRC32 make following changes
 
 ## Summary
 This example demonstrates how CRCSCAN peripheral can be used to perform an integrity check on Flash memory. It also shows how the NVMCTRL peripheral performs the read and write operations on Flash memory in runtime.
+
 The sections below give a brief explanation on the Flash memory structure, and the CRC peripheral of the AVR DA family, for a better understanding of the demo. Firmware generation section explains firmware generation using MCC and MPLAB X Linker options and Hexmate tools options used for this demo.
 
 ## Appendix:
