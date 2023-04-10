@@ -51,7 +51,7 @@ Connect the AVR128DA48 Curiosity Nano board to the Host Computer (PC) using the 
     **Note:** *Alternately, open the MPLAB Data Visualizer plugin extension available to MPLAB X IDE.*
   <br><img src="images/data-visualizer.png" width="600">
 
-2. Open the crc16/crc32 project in MPLAB X IDE. (File -> Open Project)
+2. Open the crc16/crc32 project in MPLAB X IDE. Click on **File** menu, then click on **Open Project**.
 3. Clean the project. (Right click on project name and click Clean)
 4. Click **Make and Program Device**.
 5. Once programming is completed, terminal window should start displaying the messages.
