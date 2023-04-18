@@ -36,7 +36,7 @@
                 "versionRange": "*"
             }
         },
-        "author": "Irene Abraham",
+        "author": "Usha G",
         "peripherals": [
             "CRCSCAN","NVMCTRL"
         ],

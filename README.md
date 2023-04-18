@@ -32,9 +32,14 @@ The result of CRC scan is displayed on a terminal window of data visualizer as w
 ## Software Used
 - MPLAB® X IDE [v6.05 or newer](http://www.microchip.com/mplab/mplab-x-ide)
 - MPLAB® XC8 Compiler [v2.41 or newer](http://www.microchip.com/mplab/compilers)
-- MPLAB® Code Configurator (MCC) [v5.2.2 or newer](https://www.microchip.com/mplab/mplab-code-configurator)
+- MPLAB® Code Configurator (MCC) [v5.3.0 or newer](https://www.microchip.com/mplab/mplab-code-configurator)
+- MPLAB® Code Configurator (MCC) Core v5.5.0
 - Microchip AVR-Dx Device Support [2.3.272 or newer](https://packs.download.microchip.com/)
 - [Standalone Data Visualizer v2.20.674](https://www.microchip.com/mplab/avr-support/data-visualizer "Standalone Data Visualizer v2.20.674")
+- CRCSCAN Driver v4.0.5
+- NVMCTRL Driver v7.0.0
+- UART Driver v1.8.0
+- RTC Driver v4.2.4
 
 **Note:** *For running the demo, the installed tool versions must be same or later.*
 
